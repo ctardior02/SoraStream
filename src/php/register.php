@@ -5,7 +5,9 @@
   $errmode = [PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT];
   $db = new PDO($cadena_conexion, $usuario, $clave, $errmode);
 
+
   function incioSesion($id, $nombre, $nick, $email, $password, $tc = null, $rol = 0){
+    session_start();
     $_SESSION["id"] = $id;
     $_SESSION["nombre"] = $nombre;
     $_SESSION["nick"] = $nick;
@@ -24,8 +26,7 @@
 
       if($usuario->rowCount() > 0){
         foreach($usuario as $usu){
-          session_start();
-          incioSesion($usu["id"], $usu["Nombre"], $usu["Nick"], $usu["Email"], $usu["Password"], $usu["Targeta_Credito"], $usu["Rol"]);
+          incioSesion($usu["id"], $usu["Nombre"], $usu["Nick"], $usu["Email"], $usu["Password"], $usu["Tarjeta_Credito"], $usu["Rol"]);
         }
         header("Location: ../../index.html");
       } else {
@@ -45,7 +46,6 @@
       $inseccion->bindValue(":rol", 0);
       $inseccion->execute();
       if ($inseccion) {
-          session_start();
           $sid = $db->lastInsertId();
           incioSesion($sid, $_POST['sName'], $_POST['sNick'], $_POST['sEmail'], $_POST['sPassword']);
           header("Location: ../../index.html");
