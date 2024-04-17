@@ -23,11 +23,11 @@
       $usuario->execute();
 
       if($usuario->rowCount() > 0){
-        session_start();
         foreach($usuario as $usu){
+          session_start();
           incioSesion($usu["id"], $usu["Nombre"], $usu["Nick"], $usu["Email"], $usu["Password"], $usu["Targeta_Credito"], $usu["Rol"]);
         }
-        $header("Location: ./hola.php");
+        header("Location: ../../index.html");
       } else {
         $mensaje = "Credenciales Incorrectas";
       }
@@ -36,21 +36,19 @@
     }
   } else if (isset($_POST["singup"])) {
     if(isset($_POST['sName']) && isset($_POST['sNick']) && isset($_POST['sEmail']) && isset($_POST['sPassword'])){
-      $query2 = "INSERT INTO usuarios(Nombre, Nick, Email, Password, Rol) VALUES ('$sName','$sNick','$sEmail','$sPassword', 0)";
-
-      $inseccion = $db->prepare("INSERT INTO usuarios(Nombre, Nick, Email, Password, Targeta_Credito, Rol) VALUES (:name, :nick, :email, :password, :tc, :rol)");
+      $inseccion = $db->prepare("INSERT INTO usuarios (Nombre, Nick, Email, Password, Tarjeta_Credito, Rol) VALUES (:name, :nick, :email, :password, :tc, :rol)");
       $inseccion->bindParam(":name", $_POST['sName']);
       $inseccion->bindParam(":nick", $_POST['sNick']);
       $inseccion->bindParam(":email", $_POST['sEmail']);
       $inseccion->bindParam(":password", $_POST['sPassword']);
-      $inseccion->bindParam(":tc", null);
-      $inseccion->bindParam(":roll", 0);
+      $inseccion->bindValue(":tc", null);
+      $inseccion->bindValue(":rol", 0);
       $inseccion->execute();
       if ($inseccion) {
           session_start();
           $sid = $db->lastInsertId();
           incioSesion($sid, $_POST['sName'], $_POST['sNick'], $_POST['sEmail'], $_POST['sPassword']);
-          $header("Location: ./hola.php");
+          header("Location: ../../index.html");
       }
     } else {
       $mensaje2 = "Completa todos los campos";
@@ -69,7 +67,7 @@
 <body>
   <div class='main main__login position-relative w-100'>
       <div class="container a-container is-txl" id="a-container">
-        <form class="form" id="a-form" action="">
+        <form class="form" id="a-form" action="" method="POST">
           <h2 class="form_title title">Crear Cuenta</h2>
           <input class='form__input' type="text" name="sName" placeholder='Full Name'/>
           <input class='form__input' type="text" name="sNick" placeholder='Nick Name'/>
@@ -79,7 +77,7 @@
         </form>
       </div>
       <div class="container b-container is-txl is-z200" id="b-container">
-        <form class="form" id="b-form" method="" action="">
+        <form class="form" id="b-form" action="" method="POST">
           <h2 class="form_title title">Iniciar Session</h2>
           <input class='form__input' type="text" name="lNick" placeholder='Nick Name' />
           <input class='form__input' type="password" name="lPassword" placeholder='Password' />
