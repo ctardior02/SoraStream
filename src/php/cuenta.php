@@ -1,3 +1,16 @@
+<?php
+    session_start();
+    include "./db.php";
+    if(!isset($_SESSION["id"])){
+        header("Location: ../../index.php");
+    }
+
+    $fav = $db->prepare("SELECT * FROM favoritos WHERE ID_Usuario = :id_usuario");
+    $fav->bindParam(":id_usuario", $_SESSION["id"]);
+    $fav->execute();
+
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +29,7 @@
             </div>
             <div class="botones">
                 <a href="">Editar Cuenta</a>
-                <a href="">Cerrar Sesion</a>
+                <a href="./logout.php">Cerrar Sesion</a>
                 <a href="">Borrar Cuenta</a>
                 <form action="" method="post">
                     <label for="foto">Cambiar foto</label>
@@ -43,10 +56,27 @@
             </nav>
             <div class="contenido">
                 <div class="cont favoritos">
-                    <div class="fav">
-                        <img src="" alt="">
-                        <h3>One Piece</h3>
-                    </div>
+                    
+                        <?php
+                            if($fav->rowCount() > 0){
+                                foreach ($fav as $value) {
+                                    $animesFav = $db->prepare("SELECT * FROM animes WHERE ID = :id");
+                                    $animesFav->bindParam(":id", $value["ID_Anime_Fav"]);
+                                    $animesFav->execute();
+                                    foreach ($animesFav as $value) {
+                                        echo "
+                                        <div class='fav'>
+                                            <div class='imag'>
+                                                <img src='../img/".$value["Titulo"].".png' class='img-fav'>
+                                            </div>
+                                            <h3>".$value["Titulo"]."</h3>
+                                        </div>
+                                        ";
+                                    }
+                                }
+                            }
+                        ?>
+                        
                 </div>
                 <div class="cont listas">
 

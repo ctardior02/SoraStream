@@ -12,7 +12,7 @@ function actualizarOpciones () {
             if (opcion.checked && opcion.value !== cont.classList[1]) {
                 document.querySelector(`.${cont.classList[1]}`).style.display = "none";
             } else if (opcion.checked && opcion.value == cont.classList[1]) {
-                document.querySelector(`.${cont.classList[1]}`).style.display = "block";
+                document.querySelector(`.${cont.classList[1]}`).style.display = "flex";
             }
         });        
     });
