@@ -21,9 +21,9 @@
 
       if($usuario->rowCount() > 0){
         foreach($usuario as $usu){
-          incioSesion($usu["id"], $usu["Nombre"], $usu["Nick"], $usu["Email"], $usu["Password"], $usu["Tarjeta_Credito"], $usu["Rol"]);
+          incioSesion($usu["ID"], $usu["Nombre"], $usu["Nick"], $usu["Email"], $usu["Password"], $usu["Tarjeta_Credito"], $usu["Rol"]);
         }
-        header("Location: ../../index.html");
+        header("Location: ../../index.php");
       } else {
         $mensaje = "Credenciales Incorrectas";
       }
@@ -43,7 +43,7 @@
       if ($inseccion) {
           $sid = $db->lastInsertId();
           incioSesion($sid, $_POST['sName'], $_POST['sNick'], $_POST['sEmail'], $_POST['sPassword']);
-          header("Location: ../../index.html");
+          header("Location: ../../index.php");
       }
     } else {
       $mensaje2 = "Completa todos los campos";

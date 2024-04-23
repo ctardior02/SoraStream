@@ -43,3 +43,37 @@ $('.portada').slick({
   autoplay: true,
   autoplaySpeed: 4000
 });
+
+/* Estilos dropdown index cuenta */
+function myFunction() {
+  var dropdown = document.getElementById("myDropdown");
+  dropdown.classList.toggle("show");
+  
+  // Ajustar la posición del dropdown si se sale de la pantalla
+  var rect = dropdown.getBoundingClientRect();
+  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  
+  if (rect.right > viewportWidth) {
+    dropdown.style.right = "0";
+    dropdown.style.left = "auto";
+  } else {
+    dropdown.style.right = "auto";
+    dropdown.style.left = "0";
+  }
+}
+
+// Cierra el dropdown si se hace clic fuera de él
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+/* Fin estilos dropdwon cuenta */
