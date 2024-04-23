@@ -1,29 +1,24 @@
 <?php
   include "./db.php";
 
-  function incioSesion($id, $nombre, $nick, $email, $password, $tc = null, $rol = 0){
-    session_start();
-    $_SESSION["id"] = $id;
-    $_SESSION["nombre"] = $nombre;
-    $_SESSION["nick"] = $nick;
-    $_SESSION["email"] = $email;
-    $_SESSION["password"] = $password;
-    $_SESSION["tc"] = $tc;
-    $_SESSION["rol"] = $rol;
-  }
-
   if(isset($_POST["singin"])){
     if(isset($_POST["lNick"]) && isset($_POST["lPassword"])){
-      $usuario = $db->prepare("SELECT * FROM usuarios WHERE nick = :nick AND password = :password");
+      $usuario = $db->prepare("SELECT * FROM usuarios WHERE Nick = :nick AND Password = :password");
       $usuario->bindParam(":nick", $_POST["lNick"]);
       $usuario->bindParam(":password", $_POST["lPassword"]);
       $usuario->execute();
 
       if($usuario->rowCount() > 0){
-        foreach($usuario as $usu){
-          incioSesion($usu["ID"], $usu["Nombre"], $usu["Nick"], $usu["Email"], $usu["Password"], $usu["Tarjeta_Credito"], $usu["Rol"]);
-        }
-        header("Location: ../../index.php");
+          $usu = $usuario->fetch();
+          session_start();
+          $_SESSION["id"] = $usu["ID"];
+          $_SESSION["nombre"] = $usu["Nombre"];
+          $_SESSION["nick"] = $usu["Nick"];
+          $_SESSION["email"] = $usu["Email"];
+          $_SESSION["password"] = $usu["Password"];
+          $_SESSION["tc"] = $usu["Tarjeta_Credito"];
+          $_SESSION["rol"] = $usu["Rol"];
+          header("Location: ../../index.php");
       } else {
         $mensaje = "Credenciales Incorrectas";
       }
@@ -42,7 +37,14 @@
       $inseccion->execute();
       if ($inseccion) {
           $sid = $db->lastInsertId();
-          incioSesion($sid, $_POST['sName'], $_POST['sNick'], $_POST['sEmail'], $_POST['sPassword']);
+          session_start();
+          $_SESSION["id"] = $sid;
+          $_SESSION["nombre"] = $_POST['sName'];
+          $_SESSION["nick"] = $_POST['sNick'];
+          $_SESSION["email"] = $_POST['sEmail'];
+          $_SESSION["password"] = $_POST['sPassword'];
+          $_SESSION["tc"] = null;
+          $_SESSION["rol"] = 0;
           header("Location: ../../index.php");
       }
     } else {
