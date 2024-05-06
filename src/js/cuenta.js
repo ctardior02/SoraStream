@@ -77,12 +77,10 @@ function comprobarTodos() {
 
 document.querySelectorAll(".campo").forEach(input => {
     input.addEventListener("blur", function() {
-        const regex = /[{}[\]()\/\s]/;
+        const regex = /[{}\[\]()\/]/;
         const regexTC = /^\d{14,16}$/;
         if (regex.test(input.value)) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
-            document.querySelector(".editar").style.backgroundColor = "#be3939";
-            document.querySelector(".editar").disabled = true;
         } else if (nick !== input.value && input.name === "nick") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
         } else if (nick === input.value) {
@@ -103,10 +101,8 @@ document.querySelectorAll(".campo").forEach(input => {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
         } else if (tc === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
-        } else if (regexTC.test(input.value) == false && input.name === "card-number") {
+        } else if (input.name === "card-number") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
-            document.querySelector(".editar").style.backgroundColor = "#be3939";
-            document.querySelector(".editar").disabled = true;
         }
 
         comprobarTodos();
@@ -128,7 +124,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
         const regexTC = /^\d{14,16}$/;
         if (regex.test(input.value)) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
-            document.querySelector(".editar").style.backgroundColor = "#be3939";
         } else if (nick !== input.value && input.name === "nick") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
         } else if (nick === input.value) {
@@ -149,9 +144,8 @@ window.addEventListener("DOMContentLoaded", ()=>{
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
         } else if (tc === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
-        } else if (regexTC.test(input.value) == false && input.name === "card-number") {
+        } else if (input.name === "card-number") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
-            document.querySelector(".editar").style.backgroundColor = "#be3939";
         }
 
         comprobarTodos();

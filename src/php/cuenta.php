@@ -146,6 +146,18 @@
             </div>
         </section>
     </main>
+    <?php
+        echo "
+        <script>
+            var id = '$id';
+            var nick = '$nick';
+            var nombre = '$nombre';
+            var correo = '$correo';
+            var password = '$password';
+            var tc = '$tc';
+        </script>
+    ";
+    ?>
     <script src="../js/cuenta.js"></script>
 </body>
 </html>
