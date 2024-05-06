@@ -45,6 +45,11 @@
           $_SESSION["password"] = $_POST['sPassword'];
           $_SESSION["tc"] = null;
           $_SESSION["rol"] = 0;
+          echo "
+              <script>
+                
+              </script>
+              ";
           header("Location: ../../index.php");
       }
     } else {

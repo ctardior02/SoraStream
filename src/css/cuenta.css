@@ -17,17 +17,16 @@ main {
 }
 
 .info_cuenta{
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 45%;
+    width: 725px;
     background-color: #48494b;
     border: 1px solid #000000;
     border-bottom: 0;
     border-radius: 15px 15px 0 0;
-    padding: 3%;
+    padding: 56px;
 }
 
 .info_cuenta > h1 {
@@ -48,7 +47,7 @@ main {
 .info_cuenta > .botones {
     display: flex;
     gap: 10px;
-    padding-top: 3%;
+    margin-top: 3%;
 }
 
 .info_cuenta > .botones > a, .info_cuenta > .botones > form > label {
@@ -62,16 +61,97 @@ main {
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 1.15px;
-    background-color: #4B70E2;
+    background-color: #4b70e2;
     color: #f9f9f9;
     padding: 15px;
     text-decoration: none;
+    cursor: pointer;
 }
+
+.editar_cuenta {
+    box-sizing: border-box;
+    width: 900px;
+    display: none;
+    position: fixed;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #48494b;
+    border: 1px solid #000000;
+    left: calc(50vw - 450px);
+    top: 40px;
+    gap: 60px;
+    border-radius: 15px;
+    padding: 30px;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    
+}
+
+.editar_cuenta .icono_quitar {
+    position: absolute;
+    top: 0px;
+    left: 94%;
+    cursor: pointer;
+}
+
+.cerrar {
+    width: 50px;
+    height: 50px;
+}
+
+.editar_cuenta div {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.editar_cuenta label {
+    font-weight: bold;
+    color: #4B70E2;
+    font-size: 1.5em;
+}
+
+.editar_cuenta input {
+    background: #3e3f41;
+    color: #a0a5a8;
+    border: 2px solid #717171;
+    padding: 5px;
+    border-radius: 7px;
+    font-size: 1.5em;
+}
+
+.editar_cuenta .solo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.editar_cuenta .solo > * {
+    width: 100px;
+}
+
+#editar:checked + .editar_cuenta {
+    display: flex;
+}
+
+#card-number {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+#card-number::-webkit-inner-spin-button,
+#card-number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
 
 /*  */
 
 .otros{
-    width: 45%;
+    width: 839px;
     padding-bottom: 50px;
 }
 
@@ -113,7 +193,7 @@ main {
 }
 
 .contenido {
-    width: 100%;
+    width: 838px;
     border: 1px solid #000000;
 }
 
