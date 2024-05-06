@@ -3,12 +3,8 @@ body{
     justify-content: center;
 }
 .body{
-	/* background-color: #16172b; */
-	background-color: #3c5875; /* Fallback color */
-	background-image: -webkit-linear-gradient(top left, #16172b 10%, #3c5875); /* Chrome, Safari */
-	background-image: -moz-linear-gradient(top left, #16172b 10%, #3c5875); /* Firefox */
-	background-image: -o-linear-gradient(top left, #16172b 10%, #3c5875); /* Opera */
-	background-image: linear-gradient(to top left, #16172b 97%, #3c5875 ); /* Standard syntax */
+	/* background-color: #3c5875; */
+	background-color: #16172b; /* Fallback color */
 }
 header{
     width: 100;
@@ -62,10 +58,21 @@ header{
     top: 0%;
     background-color: white;
 }
+.cardFlip-block-back::before{
+	 content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+}
 .slick-slide{
     width: 100%;
 	display: flex!important;
 	justify-content: center;
+	background-image: url();
 }
 
 .Sinopsis{

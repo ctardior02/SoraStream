@@ -75,5 +75,7 @@ window.onclick = function(event) {
     }
   }
 }
-
+function reproducir(id){
+  location.href ="./src/php/reproductor.php?id=" + id;
+}
 /* Fin estilos dropdwon cuenta */

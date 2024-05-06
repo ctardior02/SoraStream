@@ -1,0 +1,64 @@
+.opciones_Categorias{
+    border: 1px solid #b1b1b1;
+    margin-left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 50px;
+}
+.invisible{
+    visibility: hidden;
+    width: 0;
+}
+
+.opciones_Categorias:hover{
+    color: #fff;
+    border: 1px solid #fff;
+}
+.opciones_Categorias label:hover{
+    cursor: pointer;
+}
+.contenedor_categorias{
+        gap: 100px;
+        flex-wrap: wrap;
+}
+.contenedor_categorias img{
+    width: 300px;
+}
+
+
+
+.contenedorAnime {
+    background-color: blue;
+    position: relative;
+    overflow: hidden;
+}
+.contenedorAnime img{
+    width: 300px;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.contenedorAnime:hover .content {
+    opacity: 1;
+    border: 2px solid #fff;
+}
+.tituloContent{
+    margin-left: 10px;
+}
