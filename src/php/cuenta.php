@@ -12,7 +12,22 @@
             $res = move_uploaded_file($_FILES["foto"]["tmp_name"], "../img/imgs-usuarios/".$_FILES["foto"]["name"]);
             header("Location: {$_SERVER['PHP_SELF']}");
             exit();
-        }
+        } else if (isset($_POST["nick"]) && isset($_POST["nombre"]) && isset($_POST["correo"]) && isset($_POST["password"])) {
+            if(!isset($_POST["card-number"]) || $_POST["card-number"] === "" || $_POST["card-number"] === null){
+                $mtc = null;
+            } else {
+                $mtc = $_POST["card-number"];
+            }
+            $_SESSION["tc"] = $mtc;
+            $modificacion = $db->prepare("UPDATE usuarios SET Nombre = :nombre, Nick = :nick, Email= :email, Password = :password, Tarjeta_Credito = :tc WHERE ID = :id");
+            $modificacion->bindParam(":id", $_SESSION["id"]);
+            $modificacion->bindParam(":nick", $_POST["nick"]);
+            $modificacion->bindParam(":nombre", $_POST["nombre"]);
+            $modificacion->bindParam(":email", $_POST["correo"]);
+            $modificacion->bindParam(":password", $_POST["password"]);
+            $modificacion->bindParam(":tc", $mtc);
+            $modificacion->execute();
+        } 
     } 
 
     $fav = $db->prepare("SELECT * FROM favoritos WHERE ID_Usuario = :id_usuario");
@@ -66,22 +81,27 @@
                             <div>
                                 <label class="label_campo" for="nick">Nick:</label>
                                 <input type="text" name="nick" class="campo" id="nick" value="<?php echo $_SESSION["nick"]; ?>" >
+                                <div class="error oculto">Este campo no puede tener los caracteres: ()[]{}/\</div>
                             </div>
                             <div>
                                 <label class="label_campo" for="nombre">Nombre Completo:</label>
                                 <input type="text" name="nombre" class="campo" id="nombre" value="<?php echo $_SESSION["nombre"]; ?>">
+                                <div class="error oculto">Este campo no puede tener los caracteres: ()[]{}/\</div>
                             </div>
                             <div>
                                 <label class="label_campo" for="correo">Correo:</label>
                                 <input type="text" name="correo" class="campo" id="correo" value="<?php echo $_SESSION["email"]; ?>">
+                                <div class="error oculto">Este campo no puede tener los caracteres: ()[]{}/\</div>
                             </div>
                             <div>
                                 <label class="label_campo" for="password">Contraseña:</label>
                                 <input type="text" name="password" class="campo" id="password" value="<?php echo $_SESSION["password"]; ?>">
+                                <div class="error oculto">Este campo no puede tener los caracteres: ()[]{}/\</div>
                             </div>
                             <div>
                                 <label class="label_campo" for="card-number">Tarjeta de Credito:</label>
-                                <input type="number" name="card-number" class="campo" id="card-number" minlength="14" maxlength="19" placeholder="XXXX XXXX XXXX XXXX">
+                                <input type="number" name="card-number" class="campo" id="card-number" placeholder="XXXXXXXXXXXXXXXX" value="<?php echo $_SESSION["tc"]; ?>">
+                                <div class="error oculto">Este campo no puede tener menos de 14 y más de 19 caracteres</div>
                             </div>
                             <div class="solo">
                                 <input type="submit" class="editar" value="Editar" disabled>

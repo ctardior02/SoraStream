@@ -100,7 +100,7 @@ main {
     height: 50px;
 }
 
-.editar_cuenta div {
+.editar_cuenta > div {
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -228,4 +228,14 @@ main {
 
 .fav h3, .hist h3 {
     font-size: 3em;
+}
+
+.error {
+    display: block;
+    color: rgb(206, 23, 23);
+    font-weight: bold;
+}
+
+.oculto {
+    display: none;
 }

@@ -77,32 +77,47 @@ function comprobarTodos() {
 
 document.querySelectorAll(".campo").forEach(input => {
     input.addEventListener("blur", function() {
-        const regex = /[{}\[\]()\/]/;
-        const regexTC = /^\d{14,16}$/;
+        const error = document.querySelector(`input[name='${input.name}'] + div`);
+        const regex = /[{}\[\]()\/\\]/;
+        const regexTC = /^\d{14,19}$/;
         if (regex.test(input.value)) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
+            document.querySelector(".editar").style.backgroundColor = "#be3939";
+            error.classList.remove("oculto");
         } else if (nick !== input.value && input.name === "nick") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (nick === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (nombre !== input.value && input.name === "nombre") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (nombre === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (correo !== input.value && input.name === "correo") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (correo === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (password !== input.value && input.name === "password") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (password === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (regexTC.test(input.value) && tc !== input.value && input.name === "card-number") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (tc === input.value) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#4b70e2";
+            if(error.classList.length === 1) error.classList.add("oculto");
         } else if (input.name === "card-number") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
+            document.querySelector(".editar").style.backgroundColor = "#be3939";
+            error.classList.remove("oculto");
         }
 
         comprobarTodos();
@@ -120,10 +135,12 @@ window.addEventListener("DOMContentLoaded", actualizarOpciones);
 fomualario.addEventListener("change", actualizarOpciones);
 window.addEventListener("DOMContentLoaded", ()=>{
     document.querySelectorAll(".campo").forEach(input => {
+        const error = document.querySelector(`input[name='${input.name}'] + div`);
         const regex = /[{}\[\]()\/]/;
-        const regexTC = /^\d{14,16}$/;
+        const regexTC = /^\d{14,19}$/;
         if (regex.test(input.value)) {
             document.querySelector(`label[for='${input.name}']`).style.color = "#be3939";
+            error.display = "block";
         } else if (nick !== input.value && input.name === "nick") {
             document.querySelector(`label[for='${input.name}']`).style.color = "#2fcf84";
         } else if (nick === input.value) {
