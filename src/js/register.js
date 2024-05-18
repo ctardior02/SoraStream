@@ -39,4 +39,43 @@ let mainF = () => {
         switchBtn[index].addEventListener("click", changeForm)
 }
 
+function inputsSingUp(){
+    const sSubmit = document.querySelector(".s__singup");
+    const sName = document.querySelector("input[name='sName']");
+    const sNick = document.querySelector("input[name='sNick']");
+    const sEmail = document.querySelector("input[name='sEmail']");
+    const sPassword = document.querySelector("input[name='sPassword']");
+    
+    if(sName.value === "" || sNick.value === "" || sEmail.value === "" || sPassword.value === "" ||
+    sName.value === null || sNick.value === null || sEmail.value === null || sPassword.value === null){
+        sSubmit.disabled = true;
+        sSubmit.style.cursor = "default";
+        
+    } else {
+        sSubmit.disabled = false;
+        sSubmit.style.cursor = "pointer";
+    }
+}
+
+function mensajesBotones(){
+    const mensaje2 = document.querySelector(".s__description");
+    if(mensaje2.textContent != "¡Importante!: Recuerda rellenar todos los campos"){
+        mensaje2.style.color = "#be3939";
+    } else {
+        mensaje2.style.color = "#a0a5a8";
+    }
+
+    const mensaje = document.querySelector(".l__description");
+    if(mensaje.textContent != "¡Importante!: Recuerda rellenar todos los campos"){
+        mensaje.style.color = "#be3939";
+    } else {
+        mensaje.style.color = "#a0a5a8";
+    }
+}
+
 window.addEventListener("load", mainF);
+window.addEventListener("load", mensajesBotones);
+window.addEventListener("load", inputsSingUp);
+document.querySelectorAll(".c__singup").forEach(input => {
+    input.addEventListener("blur", inputsSingUp);
+})

@@ -130,7 +130,6 @@
     letter-spacing: 1.15px;
     background-color: #4B70E2;
     color: #f9f9f9;
-    /* box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #f9f9f9; */
     border: none;
     outline: none;
   }
@@ -192,12 +191,12 @@
   .switch__button {
     cursor: pointer;
   }
-  .switch__button:hover {
+  .button:hover {
     box-shadow: 6px 6px 10px #171718, -6px -6px 10px #171718;
     transform: scale(0.985);
     transition: 0.25s;
   }
-  .switch__button:active, .switch__button:focus {
+  .button:active, .button:focus {
     box-shadow: 2px 2px 6px #ffffff, -2px -2px 6px #ffffff;
     transform: scale(0.97);
     transition: 0.25s;
