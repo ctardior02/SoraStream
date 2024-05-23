@@ -6,6 +6,29 @@ function FiltroAnime($tipoAnime)
   $animeq = $db->query($animes);
   return $animeq;
 }
+function buscarAnimesPorNombre($db, $nombre)
+{
+  include "./src/php/db.php";
+  $buscadorNombre = $db->prepare("SELECT * FROM animes WHERE Titulo LIKE ?");
+  $buscadorNombre->execute(["%$nombre%"]);
+  return $buscadorNombre->fetchAll(PDO::FETCH_ASSOC);
+}
+
+if (isset($_GET['nombre'])  && $_GET['nombre'] != "") {
+  include "./src/php/db.php";
+  $nombre = htmlspecialchars($_GET['nombre']);
+  $resultados = buscarAnimesPorNombre($db, $nombre);
+}
+function buscar()
+{
+  $nombre = $_POST["nombre"];
+  header("Location: ./categorias.php?nombre=" . $nombre);
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
+  $nombre = htmlspecialchars($_POST["nombre"]);
+  header("Location: ./categorias.php?nombre=" . urlencode($nombre));
+  exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +40,8 @@ function FiltroAnime($tipoAnime)
   <title>SoraStream</title>
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./src/css/categorias.css">
-  <link rel="stylesheet" href="./src/css/index.css">
+  <link rel="stylesheet" href="./src/css/cabecera.css">
+  <link rel="stylesheet" href="./src/css/portada.css">
   <!-- Uso de librerias -->
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
@@ -38,8 +62,10 @@ function FiltroAnime($tipoAnime)
     </div>
     <div class="d-flex align-items-center">
       <div class="buscador-container me-3">
-        <input type="text" placeholder="Buscar...">
-        <button class="buscador" type="submit">Buscar</button>
+      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="d-flex ">
+          <input type="text" name="nombre" placeholder="Buscar...">
+          <button class="buscador" type="submit">Buscar</button>
+        </form>
       </div>
       <?php
 
@@ -110,6 +136,37 @@ function FiltroAnime($tipoAnime)
         <input type="radio" value="Seinen" onchange="this.form.submit()" name="categoria_Anime" class="invisible" id="Seinen"><label for="Seinen">Seinen</label>
       </div>
     </form>
+
+
+    <?php if (isset($resultados) && count($resultados) > 0) : ?>
+      <?php
+      echo "<div class=' mt-5 justify-content-center d-flex contenedor_categorias'>";
+      foreach ($resultados as $anime) :
+        echo "  
+        <div class='contenedorAnime'>
+          <img src='./src/img/ids_categoria/" . $anime["ID"] . ".png' alt=''>
+          <div class='content'>
+            <h4 class='tituloContent'>" . $anime["Titulo"] . "</h4>
+            <div class='iconos mt-4 w-100 d-flex '>
+                  <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                  </svg>
+                  <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='w-6 h-6'>
+                    <path stroke-linecap='round' stroke-linejoin='round' d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z' />
+                  </svg>
+                </div>
+          </div>
+        </div>";
+      ?>
+
+      <?php endforeach; ?>
+    <?php elseif (!isset($_POST['categoria_Anime'])): ?>
+      <div class="d-flex justify-content-center">
+      <p class="text-light mt-5">No se encontraron animes con ese nombre.</p>
+      </div>
+    <?php endif; ?>
+
+
     <?php
     if (isset($_POST["categoria_Anime"])) {
       $_SESSION["categoria_Anime"] = $_POST["categoria_Anime"];
@@ -120,7 +177,7 @@ function FiltroAnime($tipoAnime)
         <div class='contenedorAnime'>
           <img src='./src/img/ids_categoria/" . $anime["ID"] . ".png' alt=''>
           <div class='content'>
-            <h4 class='tituloContent'>". $anime["Titulo"] ."</h4>
+            <h4 class='tituloContent'>" . $anime["Titulo"] . "</h4>
             <div class='iconos mt-4 w-100 d-flex '>
                   <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
                     <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
@@ -163,12 +220,12 @@ function FiltroAnime($tipoAnime)
             </a></li>
         </ul>
       </div>
-  <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-  <script type="text/javascript" src="./src/js/index.js"></script>
-  <script type="text/javascript" src="./src/js/categorias.js"></script>
+      <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+      <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+      <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+      <script type="text/javascript" src="./src/js/index.js"></script>
+      <script type="text/javascript" src="./src/js/categorias.js"></script>
 </body>
 
 </html>

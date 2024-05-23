@@ -1,0 +1,36 @@
+html, body{
+	height:100%;
+	margin:0;
+	display: flex;
+	flex-direction: column;
+	background-color: black!important;
+  }
+:root {
+  --plyr-color-main: #4B70E2;
+} 
+
+@media (min-width: 1400px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 89%!important;
+    }
+}
+
+
+
+.barra1{
+  background-color: silver;
+  height: 7px;
+}
+.barra2{
+  background-color: grey;
+  width: 50%;
+  height: 7px;
+}
+.barras{
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  width: 260px;
+  left: 20px;
+  top: 180px;
+}

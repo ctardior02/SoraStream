@@ -100,146 +100,11 @@ header{
     display: flex;
     width: 80%;
 }
-.contenedorPortada{
-    position: relative;
-    display: flex;
-    width: 80%;
-    height: 650px!important;
-}
-.contenedorPortada::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
-    z-index: 1;
-}
-.contenedorPortada > * {
-    position: relative;
-    z-index: 2; /* Aquí estás definiendo un z-index mayor para los elementos hijos */
-}
-/* Portada */
-.pelicula-principal {
-	font-size: 16px;
-	min-height: 40.62em;
-	color: #fff;
-	background: linear-gradient(rgba(0, 0, 0, .50) 0%, rgba(0,0,0,.50) 100%), url(../img/backdrop.jpg);
-	background-position: center center;
-	background-size: cover;
-	margin-bottom: 3.12em;
-	display: flex;
-	align-items: end;
-}
-
-.pelicula-principal .contenedor {
-	margin: 0 auto;
-}
-
-.pelicula-principal .titulo {
-	font-weight: 600;
-	font-size: 3.12em;
-	margin-bottom: 0.4em;
-}
-
-.pelicula-principal .descripcion {
-	font-weight: normal;
-	font-size: 1em;
-	line-height: 1.75em;
-	max-width: 50%;
-	margin-bottom: 1.25em;
-}
-
-.pelicula-principal .boton {
-	background: rgba(0,0,0, 0.5);
-	border: none;
-	border-radius: 0.31em;
-	padding: 0.93em 1.87em;
-	color: #fff;
-	margin-right: 1.25em;
-	cursor: pointer;
-	transition: .3s ease all;
-	font-size: 1.12em;
-}
-
-.pelicula-principal .boton:hover {
-	background: #fff;
-	color: #000;
-}
-
-.pelicula-principal .boton i {
-	margin-right: 1.25em;
-}
-
-/* ---- ----- ----- Media Queries ----- ----- ----- */
-@media screen and (max-width: 800px) {
-	header .logotipo {
-		margin-bottom: 10px;
-		font-size: 30px;
-	}
-
-	header .contenedor {
-		flex-direction: column;
-		text-align: center;
-	}
-
-	.pelicula-principal {
-		font-size: 14px;
-	}
-
-	.pelicula-principal .descripcion {
-		max-width: 100%;
-	}
-}
-/* Fin portada */
-
-/* Botones Header */
-
-.BotonHeader{
-	overflow: hidden;
-    display: inline;
-    font-weight: 700;
-    color: #b1b1b1;
-    line-height: 24px;
-    padding: 4px 10px;
-	text-emphasis: none;
-	text-decoration: none;
-	outline: none;
-}
-.BotonInicioRegistro{
-	overflow: hidden;
-    display: inline;
-    font-weight: 700;
-    color: #b1b1b1;
-    line-height: 24px;
-    padding: 4px 10px;
-	text-emphasis: none;
-	text-decoration: none;
-	outline: none;
-	border: 1px solid #5b5b5b; 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.BotonHeader:hover{
-	color: white;
-}
-
-.BotonInicioRegistro:hover{
-	color: white;
-	border: 1px solid white; 
-}
-/* Estilos para el botón y el dropdown */
-.dropbtn {
-	background-color: blue;
-	color: white;
-	padding: 10px;
-	font-size: 16px;
-	border: none;
-	border-radius: 80%;
-	cursor: pointer;
+  /*  slider */
+  .slick-prev:before,
+  .slick-next:before {
+  font-size: 30px!important;
+  margin-left: -5px!important;
   }
   
   .dropbtn > * {
@@ -252,55 +117,14 @@ header{
 	position: relative;
 	display: inline-block;
   }
-  
-  .dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f9f9f9;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
+
+  .slick-dots li.slick-active button:before {
+  color: #fff!important;
   }
-  
-  /* Mostrar el dropdown cuando se hace clic en el botón */
-  .dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
+  .slick-dots li button:before {
+  color: #fff!important;
   }
-  
-  .dropdown-content a:hover {
-	background-color: #f1f1f1;
+  .slick-dots li button:hover:before {
+  color: #fff!important;
   }
-  
-  .show {
-	display: block;
-  }
-  
-/* Buscador */
-.buscador-container {
-	display: flex;
-  }
-  
-  input[type="text"] {
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px 0 0 5px;
-	outline: none;
-  }
-  
-  .buscador {
-	padding: 5px 10px;
-	background-color: #5b5b5b;
-	color: #fff;
-	border: none;
-	border-radius: 0 5px 5px 0;
-	cursor: pointer;
-	outline: none;
-  }
-  
-  .buscador:hover {
-	background-color: #5b5b5b;
-  }
-  /* Fin buscador */
+  /* Fin arrow slider */
