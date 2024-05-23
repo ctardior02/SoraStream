@@ -2,9 +2,10 @@ $(document).ready(function(){
   $('.ListaAnimes').slick({
     dots: false,
     infinite: false,
-    speed: 300,
+    speed: 700,
     slidesToShow: 5,
     slidesToScroll: 5,
+    swipe: false,
     responsive: [
       {
         breakpoint: 1600,
@@ -41,7 +42,8 @@ $('.portada').slick({
   infinite: true,
   arrows: false,
   autoplay: true,
-  autoplaySpeed: 4000
+  autoplaySpeed: 4000,
+  swipe: false
 });
 
 /* Estilos dropdown index cuenta */
@@ -76,6 +78,6 @@ window.onclick = function(event) {
   }
 }
 function reproducir(id){
-  location.href ="./src/php/reproductor.php?id=" + id;
+  location.href ="./src/php/EleccionCapitulo.php?id=" + id;
 }
 /* Fin estilos dropdwon cuenta */

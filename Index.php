@@ -15,7 +15,16 @@ function FiltroAnime($tipoAnime)
   $animeq = $db->query($animes);
   return $animeq;
 }
-
+function buscar()
+{
+  $nombre = $_POST["nombre"];
+  header("Location: ./categorias.php?nombre=" . $nombre);
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $nombre = htmlspecialchars($_POST["nombre"]);
+  header("Location: ./categorias.php?nombre=" . urlencode($nombre));
+  exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,10 +35,11 @@ function FiltroAnime($tipoAnime)
   <title>SoraStream</title>
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./src/css/Index.css">
+  <link rel="stylesheet" href="./src/css/cabecera.css">
+  <link rel="stylesheet" href="./src/css/portada.css">
   <!-- Uso de librerias -->
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 <body class="d-flex flex-column justify-content-center body">
@@ -46,15 +56,17 @@ function FiltroAnime($tipoAnime)
     </div>
     <div class="d-flex align-items-center">
       <div class="buscador-container me-3">
-        <input type="text" placeholder="Buscar...">
-        <button class="buscador" type="submit">Buscar</button>
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="d-flex ">
+          <input type="text" name="nombre" placeholder="Buscar...">
+          <button class="buscador" type="submit">Buscar</button>
+        </form>
       </div>
       <?php
 
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-              <a href="./src/php/register.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+              <a href ="./src/php/register.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
               <a href="./src/php/register.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
             </div>';
       } else {
@@ -73,7 +85,7 @@ function FiltroAnime($tipoAnime)
     </div>
   </header>
   <section class="pelicula-principal portada d-flex">
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/portada5.jpg); background-size: cover;">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/portada5.jpg); background-size: cover;" onclick="reproducir(13)">
       <h3 class="titulo ms-3">Kimetsu No Yaiba</h3>
       <p class="descripcion ms-3">
         La obra sigue las aventuras de Tanjirō Kamado, un adolescente cuya familia fue cruelmente asesinada por un Demonio el cual convirtió a su hermana Nezuko en una de estas criaturas, obligando a Tanjirō a emprender un viaje para cazar a estos seres y de paso ayudar a su hermana a recuperar su humanidad.
@@ -84,18 +96,18 @@ function FiltroAnime($tipoAnime)
       </div>
     </div>
 
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/OnePiece-Portada.jpg) ; background-size: cover;">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/OnePiece-Portada.jpg) ; background-size: cover;" onclick="reproducir(3)">
       <h3 class="titulo ms-3">One Piece</h3>
       <p class="descripcion ms-3">
         One Piece narra la historia de un joven llamado Monkey D. Luffy, que inspirado por su amigo pirata Shanks, comienza un viaje para alcanzar su sueño, ser el Rey de los piratas, para lo cual deberá encontrar el tesoro One Piece dejado por el anterior rey de los piratas Gol D. Roger.
       </p>
       <div class="d-flex ms-3">
-        <button role="button" class="boton" onclick="reproducir(3)" ><i class="fas fa-play"></i>Reproducir</button>
+        <button role="button" class="boton" onclick="reproducir(3)"><i class="fas fa-play"></i>Reproducir</button>
         <button role="button" class="boton"><i class="fas fa-solid fa-bookmark"></i>Añadir a favoritos</button>
       </div>
     </div>
 
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/dragonBall-Portada.jpg) ; background-size: cover;">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/dragonBall-Portada.jpg) ; background-size: cover;" onclick="reproducir(1)">
       <h3 class="titulo ms-3">Dragon Ball</h3>
       <p class="descripcion ms-3">
         Dragon Ball nos cuenta la vida de Son Goku, un niño inspirado en la leyenda china del rey mono que tiene cola de simio, una nube voladora y un bastón mágico y que acompaña a Bulma por el mundo en busca de las Bolas de Dragón: siete esferas capaces de conceder cualquier deseo al juntarlas e invocar al dragón Shenlong.
@@ -116,7 +128,7 @@ function FiltroAnime($tipoAnime)
       }
       echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
       foreach ($animeq as $anime) {
-        echo "<div class='flip-card' onclick='reproducir(". $anime['ID'].")'>
+        echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
               <div class='card-container'>
                   <div class='cardFlip-block'>
                       <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
@@ -140,31 +152,13 @@ function FiltroAnime($tipoAnime)
       }
       echo "</div>";
       ?>
-      <div class="d-flex justify-content-center text-white flex-column">
-        <p class="text-white">Escoge un tipo de anime:</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="d-flex flex-column">
-          <div>
-            <input type="radio" id="Shonen" name="Ct_Anime" value="Shonen">
-            <label for="html">Shonen</label><br>
-          </div>
-          <div>
-            <input type="radio" id="Seinen" name="Ct_Anime" value="Seinen">
-            <label for="html">Seinen</label><br>
-          </div>
-          <div>
-            <input type="radio" id="Isekai" name="Ct_Anime" value="Isekai">
-            <label for="html">Isekai</label><br>
-          </div>
-          <input type="submit">
-        </form>
-      </div>
 
       <h3 class="text-light mt-4">Los mejores shonen</h1>
         <?php
         $animeq = FiltroAnime("Shonen");
         echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
         foreach ($animeq as $anime) {
-          echo "<div class='flip-card'>
+          echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
               <div class='card-container'>
                   <div class='cardFlip-block'>
                       <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
@@ -193,7 +187,7 @@ function FiltroAnime($tipoAnime)
           $animeq = FiltroAnime("Seinen");
           echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
           foreach ($animeq as $anime) {
-            echo "<div class='flip-card'>
+            echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
               <div class='card-container'>
                   <div class='cardFlip-block'>
                       <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
@@ -222,7 +216,7 @@ function FiltroAnime($tipoAnime)
             $animeq = FiltroAnime("Isekai");
             echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
             foreach ($animeq as $anime) {
-              echo "<div class='flip-card'>
+              echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
               <div class='card-container'>
                   <div class='cardFlip-block'>
                       <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
@@ -246,25 +240,6 @@ function FiltroAnime($tipoAnime)
             }
             echo "</div>";
 
-
-
-
-
-            if (isset($_POST['option'])) {
-              $opcion = $_POST['option'];
-              // Aquí puedes realizar lo que necesites con la opción seleccionada
-              // Por ejemplo:
-              if ($opcion == 'opcion1') {
-                // Ejecutar función correspondiente
-                echo "Opción 1 seleccionada";
-              } elseif ($opcion == 'opcion2') {
-                // Ejecutar otra función
-                echo "Opción 2 seleccionada";
-              }
-              // Añade más condiciones según necesites
-            } else {
-              echo "No se recibió ninguna opción";
-            }
             ?>
 
 
