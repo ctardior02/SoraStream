@@ -131,9 +131,9 @@ document.querySelectorAll(".campo").forEach(input => {
 
 let fomualario = document.forms.habilitar;
 let contenedores = document.querySelector(".opcion");
-window.addEventListener("DOMContentLoaded", actualizarOpciones);
+window.addEventListener("load", actualizarOpciones);
 fomualario.addEventListener("change", actualizarOpciones);
-window.addEventListener("DOMContentLoaded", ()=>{
+window.addEventListener("load", ()=>{
     document.querySelectorAll(".campo").forEach(input => {
         const error = document.querySelector(`input[name='${input.name}'] + div`);
         const regex = /[{}\[\]()\/]/;

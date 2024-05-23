@@ -147,6 +147,40 @@ main {
     -webkit-appearance: none;
 }
 
+.rol {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    margin-top: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.15px;
+    color: #f9f9f9;
+    padding: 15px;
+    text-decoration: none;
+    border: none;
+}
+
+.p__premium {
+    background-color: #f6fc57;
+    color: #000000;
+    cursor: pointer;
+}
+
+.p__premium-ten {
+    background-color: #6b6b6b;
+    color: #ececec;
+}
+
+.p__admin {
+    text-decoration: none;
+    background-color: #3b8a58;
+    color: #000000;
+    cursor: pointer;
+}
+
 
 /*  */
 
@@ -165,7 +199,7 @@ main {
 
 
 .otros .opcion {
-    width: 33.33%;
+    width: 50%;
     font-size: 2em;
     font-weight: bold;
     background-color: #48494b;
@@ -174,7 +208,7 @@ main {
 }
 
 .otros .opcion2 {
-    width: 33.33%;
+    width: 50%;
     display: flex;
     justify-content: center;
     font-size: 2em;
@@ -232,10 +266,28 @@ main {
 
 .error {
     display: block;
-    color: rgb(206, 23, 23);
+    color: rgb(190, 57, 57);
     font-weight: bold;
 }
 
 .oculto {
     display: none;
+}
+
+.s__trash {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.trash {
+    width: 25px;
+    height: 25px;
+}
+
+.p__descripcion{
+    margin-top: 56px;
+    font-weight: bold;
+    font-size: 1.4em;
+    color: #be3939;
 }
