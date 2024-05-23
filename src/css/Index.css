@@ -78,13 +78,23 @@ header{
 .Sinopsis{
     font-size: small;
 }
+
 .IconosPlay{
     width: 35px;
     margin-left: 10px;
 }
+
 .IconoFav{
     width: 27px;
+	color: #fff;
 }
+
+.s__fav{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 .contenedor{
     position: relative;
     display: flex;
@@ -230,6 +240,12 @@ header{
 	border: none;
 	border-radius: 80%;
 	cursor: pointer;
+  }
+  
+  .dropbtn > * {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
   }
   
   .dropdown {
