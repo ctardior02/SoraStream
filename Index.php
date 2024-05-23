@@ -170,6 +170,7 @@ function mostrarFoto(){
                           </svg>
                       </a>
           ";
+        }
         echo "<div class='flip-card' onclick='reproducir(". $anime['ID'].")'>
               <div class='card-container'>
                   <div class='cardFlip-block'>
