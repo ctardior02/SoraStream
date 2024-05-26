@@ -106,17 +106,6 @@ header{
   font-size: 30px!important;
   margin-left: -5px!important;
   }
-  
-  .dropbtn > * {
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
-  }
-  
-  .dropdown {
-	position: relative;
-	display: inline-block;
-  }
 
   .slick-dots li.slick-active button:before {
   color: #fff!important;
