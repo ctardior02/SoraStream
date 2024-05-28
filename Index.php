@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+$metodo = htmlspecialchars($_SERVER["PHP_SELF"]);
+
+include "./src/php/db.php";
+
 function FullAnimes()
 {
   include "./src/php/db.php";
@@ -47,9 +52,17 @@ function buscar()
   header("Location: ./categorias.php?nombre=" . $nombre);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $nombre = htmlspecialchars($_POST["nombre"]);
-  header("Location: ./categorias.php?nombre=" . urlencode($nombre));
-  exit();
+  if(isset($_POST["nombre"])){
+    $nombre = htmlspecialchars($_POST["nombre"]);
+    header("Location: ./categorias.php?nombre=" . urlencode($nombre));
+    exit();
+  } else if (isset($_POST["id_fav"])) {
+    $añadirFavoritos = $db->prepare("INSERT INTO favoritos (ID_Usuario, ID_Anime_Fav) VALUES (:id_usuario, :id_anime_fav)");
+    $añadirFavoritos->bindParam(":id_usuario", $_SESSION["id"]);
+    $añadirFavoritos->bindParam(":id_anime_fav", $_POST["id_fav"]);
+    $añadirFavoritos->execute();
+    $_POST = array();
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -165,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ";
             
           } else {
-            $ico_fav = "<form action='./src/php/cuenta.php' method='post'>
+            $ico_fav = "<form action='$metodo' method='post'>
                         <input type='hidden' name='id_fav' value='".$anime["ID"]."'>
                         <button type='submit' class='s__fav'>
                           <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
