@@ -1,17 +1,64 @@
 body{
     width: 100%;
     height: 100vh;
-    display: flex;
+    display: block;
     font-family: "Montserrat", sans-serif;
     font-size: 12px;
     background-color: #3e3f41;
     color: #a0a5a8;
+    padding: 0;
+    margin: 0;
 }
+
+header{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 1px solid #fff;
+    height: 100px;
+}
+
+header > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header > div:first-child{
+    width: 90%;
+}
+
+header > div:last-child{
+    margin-left: 35px;
+}
+
+header > div > ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+header > div > .drop {
+    display: flex;
+    align-items: center;
+}
+
+header .drec{
+    justify-self: flex-end;
+}
+
 
 main {
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-top: 50px;
 }
@@ -209,8 +256,6 @@ main {
 
 .otros .opcion2 {
     width: 50%;
-    display: flex;
-    justify-content: center;
     font-size: 2em;
     font-weight: bold;
     background-color: #48494b;
@@ -222,12 +267,11 @@ main {
 .otros label {
     display: flex;
     justify-content: center;
-    width: 100%;
     padding: 5px;
 }
 
 .contenido {
-    width: 838px;
+    width: 100%;
     border: 1px solid #000000;
 }
 
@@ -241,8 +285,7 @@ main {
 }
 
 .fav, .hist {
-    display: flex;
-    flex-direction: row;
+    display: grid;
     width: 100%;
     border: 1px solid #000000;
     box-sizing: border-box;
@@ -251,6 +294,19 @@ main {
     align-items: center;
     height: 150px;
     gap: 40px;
+}
+
+.fav{
+    grid-template-columns: 120px 1fr 50px;
+}
+
+.hist{
+    grid-template-columns: 120px 1fr 200px 50px;
+}
+
+.eliminar{
+    justify-self: end;
+    margin-right: 10px;
 }
 
 .img-fav, .img-hist {
@@ -290,4 +346,115 @@ main {
     font-weight: bold;
     font-size: 1.4em;
     color: #be3939;
+}
+
+@media (max-width: 1185px) {
+    header > div:last-child{
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 854px) {
+    header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+    }
+
+    header > div:first-child{
+        flex-direction: column;
+    }
+
+    .info_cuenta{
+        padding: 0;
+    }
+
+    .img-fav, .img-hist {
+        display: none;
+    }
+
+    .otros{
+        width: 727px;
+    }
+
+    .fav{
+        grid-template-columns: 0px 1fr 50px;
+    }
+
+    .hist{
+        grid-template-columns: 0px 1fr 200px 50px;
+    }
+}
+
+@media (max-width: 744px) {
+    .info_cuenta{
+        width: 560px;
+    }
+
+    .botones{
+        flex-direction: column;
+    }
+
+    .info_cuenta > .botones > a, .info_cuenta > .botones > form > label {
+        width: 400px;
+    }
+
+    .otros{
+        width: 560px;
+    }
+
+    .otros form{
+        flex-direction: column;
+    }
+    .otros .opcion, .otros .opcion2{
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .otros label{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .hist{
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 3fr 1fr;
+        grid-template-areas: "titulo titulo"
+                             "fecha eliminar";
+    }
+
+    .hist > h3 {
+        text-align: center;
+        font-size: 2.5em;
+        grid-area: titulo;
+        margin-bottom: 0;
+    }
+
+    .hist > .fecha {
+        margin-left: 20px;
+        grid-area: fecha;
+    }
+
+    .hist > .eliminar {
+        grid-area: eliminar;
+    }
+}
+
+@media (max-width: 570px) {
+    .info_cuenta{
+        width: 330px;
+    }
+
+    .info_cuenta > .botones > a, .info_cuenta > .botones > form > label{
+        width: 300px;
+    }
+
+    .rol{
+        width: 300px;
+    }
+
+    .otros{
+        width: 330px;
+    }
 }

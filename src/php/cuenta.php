@@ -89,11 +89,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/cabecera.css">
     <link rel="stylesheet" href="../css/cuenta.css">
     <title>Cuenta</title>
 </head>
-<body>
-    <header></header>
+<body class="">
+    <header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
+        <div class="izq ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center">
+            <a href="../../Index.php" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <img src="../img/LogoSoraStream3.png" width="200px" alt="">
+            </a>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="px-2 BotonHeader">Tu lista</a></li>
+                <li><a href="../../categorias.php" class="px-2 BotonHeader">Categorias</a></li>
+            </ul>
+        </div>
+        <div class="drec drop d-flex align-items-center">
+            <div class="dropdown">
+                <button onclick="myFunction()" class="dropbtn">
+                    <img src="<?php echo mostrarFoto(); ?>" width="200px" class="dropbtn" alt="">
+                </button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
+                    <a href="./src/php/logout.php">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
     <main>
         <section class="info_cuenta">
             <h1><?php echo $nick; ?></h1>
@@ -233,7 +255,7 @@
                                             <img src='../img/ids/".$value["ID"].".png' class='img-hist'>
                                         </div>
                                         <h3>".$value["Titulo"]."</h3>
-                                        <div class='fecha'>".$valueHist["fecha"]."</div>
+                                        <div class='fecha'>".$valueHist["Fecha"]."</div>
                                         <div class='eliminar'>
                                             <form action='$metodo' method='post'>
                                                 <input type='hidden' name='id_hist' value='".$valueHist["ID"]."'>

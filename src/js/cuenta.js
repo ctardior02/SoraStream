@@ -14,33 +14,9 @@ function actualizarOpciones () {
             } else if (opcion.checked && opcion.value == cont.classList[1]) {
                 document.querySelector(`.${cont.classList[1]}`).style.display = "flex";
             }
-        });        
+        });  
     });
 }
-
-/* // Función para aplicar formato al número de tarjeta de crédito
-function formatCreditCardNumber() {
-    // Remover cualquier carácter que no sea un número y agregar espacios cada cuatro caracteres
-    this.value = this.value.replace(/[^0-9]+/gi, '').replace(/(.{4})/g, '$1 ');
-}
-
-// Función para desencadenar el evento 'change' después de copiar, cortar o pegar
-function triggerChangeEvent() {
-    setTimeout(function () {
-        // Desencadenar el evento 'change'
-        document.querySelector("#card-number").dispatchEvent(new Event('change'));
-    }, 0); // Esperar 0 milisegundos para ejecutar el código después de que la acción se complete
-}
-
-// Agregar el event listener para los eventos 'keypress', 'change' y 'blur'
-document.querySelector("#card-number").addEventListener('keypress', formatCreditCardNumber);
-document.querySelector("#card-number").addEventListener('change', formatCreditCardNumber);
-document.querySelector("#card-number").addEventListener('blur', formatCreditCardNumber);
-
-// Agregar el event listener para los eventos 'copy', 'cut' y 'paste'
-document.querySelector("#card-number").addEventListener('copy', triggerChangeEvent);
-document.querySelector("#card-number").addEventListener('cut', triggerChangeEvent);
-document.querySelector("#card-number").addEventListener('paste', triggerChangeEvent); */
 
 function comprobarTodos() {
    let nick2 =  document.querySelector("label[for='nick']");
@@ -169,3 +145,34 @@ window.addEventListener("load", ()=>{
     
     });
 });
+
+function myFunction() {
+    var dropdown = document.getElementById("myDropdown");
+    dropdown.classList.toggle("show");
+    
+    // Ajustar la posición del dropdown si se sale de la pantalla
+    var rect = dropdown.getBoundingClientRect();
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    
+    if (rect.right > viewportWidth) {
+      dropdown.style.right = "0";
+      dropdown.style.left = "auto";
+    } else {
+      dropdown.style.right = "auto";
+      dropdown.style.left = "0";
+    }
+  }
+  
+  // Cierra el dropdown si se hace clic fuera de él
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
