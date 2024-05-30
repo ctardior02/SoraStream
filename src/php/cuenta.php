@@ -110,8 +110,8 @@
                     <img src="<?php echo mostrarFoto(); ?>" width="200px" class="dropbtn" alt="">
                 </button>
                 <div id="myDropdown" class="dropdown-content">
-                    <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
-                    <a href="./src/php/logout.php">Cerrar sesión</a>
+                    <a href="./cuenta.php">Configuración de la cuenta</a>
+                    <a href="./logout.php">Cerrar sesión</a>
                 </div>
             </div>
         </div>

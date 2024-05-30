@@ -32,12 +32,12 @@ function mostrarFoto()
       </a>
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <!-- <li><a href="#" class="px-2 BotonHeader">Home</a></li> -->
-        <li><a href="#" class="px-2 BotonHeader">Tu lista</a></li>
-        <li><a href="./categorias.php" class="px-2 BotonHeader">Categorias</a></li>
+        <li><a href="./cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
+        <li><a href="../../categorias.php" class="px-2 BotonHeader">Categorias</a></li>
         <?php
         if (isset($_SESSION["rol"])) {
           if ($_SESSION["rol"] == 2) {
-            echo "<li><a href='./src/php/PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
+            echo "<li><a href='./PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
           }
         }
         ?>
@@ -50,8 +50,8 @@ function mostrarFoto()
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-              <a href ="./src/php/Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-              <a href="./src/php/Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+              <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+              <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
             </div>';
       } else {
         echo '<div class="dropdown">
@@ -59,8 +59,8 @@ function mostrarFoto()
                 <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
               </button>
               <div id="myDropdown" class="dropdown-content">
-                <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
-                <a href="./src/php/logout.php">Cerrar sesión</a>
+                <a href="./cuenta.php">Configuración de la cuenta</a>
+                <a href="./logout.php">Cerrar sesión</a>
               </div>
             </div>
             ';
