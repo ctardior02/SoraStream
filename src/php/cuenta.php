@@ -233,7 +233,7 @@
                                             <img src='../img/ids/".$value["ID"].".png' class='img-hist'>
                                         </div>
                                         <h3>".$value["Titulo"]."</h3>
-                                        <div class='fecha'>".$valueHist["fecha"]."</div>
+                                        <div class='fecha'>".$valueHist["Fecha"]."</div>
                                         <div class='eliminar'>
                                             <form action='$metodo' method='post'>
                                                 <input type='hidden' name='id_hist' value='".$valueHist["ID"]."'>

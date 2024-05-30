@@ -9,14 +9,14 @@ function AnimeReproductor($id)
 function filtroEpisodios($idAnime, $temporadaActiva = 1)
 {
   include "./db.php";
-  $episodios = "SELECT * from capitulo where ID_Anime = $idAnime and Temporada = $temporadaActiva";
+  $episodios = "SELECT * from capitulos where ID_Anime = $idAnime and Temporada = $temporadaActiva";
   $episodiosq = $db->query($episodios);
   return $episodiosq;
 }
 function filtroTemporadas($id)
 {
   include "./db.php";
-  $capitulos = "SELECT DISTINCT Temporada from capitulo where ID_anime = $id";
+  $capitulos = "SELECT DISTINCT Temporada from capitulos where ID_anime = $id";
   $capitulosq = $db->query($capitulos);
   return $capitulosq;
 }
@@ -54,7 +54,7 @@ if (isset($_POST["temporadaEleccion"])) {
 
 <body class="body d-flex flex-column justify-content-center">
   <header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-    <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center">
+    <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center headerIzq">
       <a href="../../Index.php" class="d-inline-flex link-body-emphasis text-decoration-none">
         <img src="../../src/img/LogoSoraStream3.png" width="200px" alt="">
       </a>
@@ -74,14 +74,14 @@ if (isset($_POST["temporadaEleccion"])) {
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-                  <a href="./src/php/register.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-                  <a href="./src/php/register.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+                  <a href="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+                  <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
                 </div>';
       } else {
         echo '<div class="dropdown">
                   <button onclick="myFunction()" class="dropbtn">Logout</button>
                   <div id="myDropdown" class="dropdown-content">
-                    <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
+                    <a href="./cuenta.php">Configuración de la cuenta</a>
                     <a href="#">Cerrar sesión</a>
                   </div>
                 </div>
@@ -127,10 +127,10 @@ if (isset($_POST["temporadaEleccion"])) {
         <?php
         foreach ($episodiosq as $episodio) {
           echo " 
-          <div  onclick='reproducirVideo(". $episodio['ID_Anime'].", ". $episodio['Temporada'].", ". $episodio['Num_episodio'].")' class='Episodio d-flex w-100 justify-content-beetwen'>
+          <div  onclick='reproducirVideo(". $episodio['ID_Anime'].", ". $episodio['Temporada'].", ". $episodio['Num_Episodio'].")' class='Episodio d-flex w-100 justify-content-beetwen'>
           <img src='../img/ids_categoria/2.png' alt=''>
           <div class='d-flex flex-column w-100 justify-content-center ms-4'>
-            <h5>Capitulo" . $episodio["Num_episodio"] . "</h5>
+            <h5>Capitulo" . $episodio["Num_Episodio"] . "</h5>
             <p>" . $episodio["Titulo"] . "</p>
           </div>
           <div class='CajaBotonEpisodio'>
@@ -174,7 +174,8 @@ if (isset($_POST["temporadaEleccion"])) {
   </footer>
   <script>
     function reproducirVideo(anime, temporada, capitulo){
-      location.href ="./reproductorEpisodio.html?src=../img/Episodios/13-1-1-definitivo.mp4";
+      
+      location.href ="./reproductorEpisodio.php?src=../img/Episodios/"+anime+"-"+temporada+"-"+capitulo+".mp4";
     }
 </script>
 </body>
