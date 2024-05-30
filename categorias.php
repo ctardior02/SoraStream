@@ -58,7 +58,7 @@ function reproducir($id){
       </a>
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <!-- <li><a href="#" class="px-2 BotonHeader">Home</a></li> -->
-        <li><a href="#" class="px-2 BotonHeader">Tu lista</a></li>
+        <li><a href="./src/php/cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
         <li><a href="./categorias.php" class="px-2 BotonHeader">Categorias</a></li>
       </ul>
     </div>
