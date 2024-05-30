@@ -1,0 +1,225 @@
+
+:root{
+  --colorPrincipal: #4582a9 ;
+  --colorPrincipal-oscuro: #2e5974;
+  --ColorFondo: #F2F2F2;
+  --ColorCambioContraseña: #525252;
+
+  --TamañoHEader: 1.5rem;
+  --TamañoLetra: .938rem;
+  --TamañoPequeño: .813rem;
+}
+
+@media screen and (min-width: 768px){
+  :root{
+    --TamañoLetra: 1rem;
+    --TamañoPequeño: .875rem;
+  }
+}
+
+/*===== BASE =====*/
+*,::before,::after{
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
+}
+
+img{
+  max-width: 100%;
+  display: block;
+  border-radius: 100px;
+}
+
+/*===== LOGIN =====*/
+.login{
+  display: grid;
+  grid-template-columns: 100%;
+  height: 100vh;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.contenido{
+  display: grid;
+}
+
+.imagenContenedor{
+  justify-self: center;
+}
+
+.imagenContenedor img{
+  width: 310px;
+  margin-top: 1.5rem;
+}
+
+.formularios{
+  position: relative;
+  height: 368px;
+}
+
+.login__registro, .login__create{
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  background-color: var(--ColorFondo);
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(35,0,77,.2);
+  animation-duration: .4s;
+  animation-name: animate-login;
+}
+
+@keyframes animate-login{
+  0%{
+    transform: scale(1,1);
+  }
+  50%{
+    transform: scale(1.1,1.1);
+  }
+  100%{
+    transform: scale(1,1);
+  }
+}
+
+.logeo_titulo{
+  font-size: var(--TamañoHEader);
+  margin-bottom: 1rem;
+}
+
+.ContenedorInput{
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: .5rem;
+  padding: 1.125rem 1rem;
+  background-color: #FFF;
+  margin-top: 1rem;
+  border-radius: .5rem;
+}
+
+
+.input{
+  border: none;
+  outline: none;
+  font-size: var(--TamañoLetra);
+  font-weight: 700;
+  color: var(--colorPrincipal-oscuro);
+}
+
+.input::placeholder{
+  font-size: var(--TamañoLetra);
+  font-family: var(--body-font);
+  color: var(--ColorCambioContraseña);
+}
+
+.RecuperarContraseña{
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-top: .5rem;
+  font-size: var(--TamañoPequeño);
+  font-weight: 600;
+  color: var(--ColorCambioContraseña);
+}
+
+.Boton{
+  display: block;
+  padding: 1rem;
+  width: 100%;
+  margin: 1rem 0;
+  background-color: var(--colorPrincipal);
+  color: #FFF;
+  font-weight: 600;
+  text-align: center;
+  border-radius: .5rem;
+  transition: .3s;
+}
+
+.Boton:hover{
+  background-color: var(--colorPrincipal-oscuro);
+}
+
+.tienesCuenta, .RegistrarteBoton, .logearseBoton{
+  font-weight: 600;
+  font-size: var(--TamañoPequeño);
+}
+
+.tienesCuenta{
+  color: var(--colorPrincipal-oscuro);
+}
+
+.RegistrarteBoton, .logearseBoton{
+  color: var(--colorPrincipal);
+  cursor: pointer;
+}
+
+/*Show login*/
+.block{
+  display: block;
+}
+
+/*Hidden login*/
+.none{
+  display: none;
+}
+
+/* ===== MEDIA QUERIES =====*/
+@media screen and (min-width: 576px){
+  .formularios{
+    width: 348px;
+    justify-self: center;
+  }
+}
+
+@media screen and (min-width: 1024px){
+  .login{
+    height: 100vh;
+    overflow: hidden;
+  }
+img{
+  height: 350px;
+}
+  .contenido{
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+    align-items: center;
+    margin-left: 10rem;
+  }
+
+  .imagenContenedor{
+    display: flex;
+    width: 600px;
+    height: 588px;
+    background-color: #060815;
+    border-radius: 1rem;
+    padding-left: 1rem;
+  }
+
+  .imagenContenedor img{
+    width: 390px;
+    margin-top: 0;
+  }
+
+  .login__registro, .login__create{
+    left: -11rem;
+  }
+
+  .login__registro{
+    bottom: -2rem;
+  }
+
+  .login__create{
+    bottom: -6.9rem;
+  }
+}
