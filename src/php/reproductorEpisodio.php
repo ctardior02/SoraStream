@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
+    <title>SoraStream</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/reproductorEpisodio.css">
 </head>
 <body>
-    <video id="myVideo" class="video-js vjs-default-skin" controls>
-        <source id="mySource" src="../img/Episodios/13-1-1-prueba.mp4" type="video/mp4">
+    <video id="myVideo" class="video-js vjs-default-skin " controls>
+        <source id="mySource" src="" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 

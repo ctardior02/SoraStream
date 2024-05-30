@@ -55,7 +55,7 @@ if (isset($_POST["temporadaEleccion"])) {
 
 <body class="body d-flex flex-column justify-content-center">
   <header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-    <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center">
+    <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center headerIzq">
       <a href="../../Index.php" class="d-inline-flex link-body-emphasis text-decoration-none">
         <img src="../../src/img/LogoSoraStream3.png" width="200px" alt="">
       </a>
@@ -75,14 +75,14 @@ if (isset($_POST["temporadaEleccion"])) {
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-                  <a href="./src/php/register.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-                  <a href="./src/php/register.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+                  <a href="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+                  <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
                 </div>';
       } else {
         echo '<div class="dropdown">
                   <button onclick="myFunction()" class="dropbtn">Logout</button>
                   <div id="myDropdown" class="dropdown-content">
-                    <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
+                    <a href="./cuenta.php">Configuración de la cuenta</a>
                     <a href="#">Cerrar sesión</a>
                   </div>
                 </div>
@@ -175,12 +175,17 @@ if (isset($_POST["temporadaEleccion"])) {
   </footer>
   <script>
     function reproducirVideo(anime, temporada, capitulo){
+<<<<<<< HEAD
       fetch("AñadirHistorial.php", {
         method: "POST",
         body: anime,
       });
 
       location.href ="./reproductorEpisodio.php?src=../img/Episodios/13-1-1-definitivo.mp4";
+=======
+      
+      location.href ="./reproductorEpisodio.php?src=../img/Episodios/"+anime+"-"+temporada+"-"+capitulo+".mp4";
+>>>>>>> c56656d5492cf1f74f79f44843611f554fb1f389
     }
 </script>
 </body>
