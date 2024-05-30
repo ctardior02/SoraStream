@@ -6,10 +6,10 @@ body{
 	/* background-color: #3c5875; */
 	background-color: #16172b; /* Fallback color */
 }
-header{
-    width: 100;
+.headerIzq{
+	display: flex;
+	flex-wrap: wrap;
 }
-
 /* Botones Header */
 
 .BotonHeader{
