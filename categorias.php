@@ -29,6 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
   header("Location: ./categorias.php?nombre=" . urlencode($nombre));
   exit();
 }
+function reproducir($id){
+  header("Location: ./src/php/eleccionCapitulo.php?id=" . $id);
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
   <link rel="stylesheet" href="./src/css/categorias.css">
   <link rel="stylesheet" href="./src/css/cabecera.css">
   <link rel="stylesheet" href="./src/css/portada.css">
-  <!-- Uso de librerias -->
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -72,8 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-            <a href="./src/php/register.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-            <a href="./src/php/register.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+            <a href="./src/php/Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+            <a href="./src/php/Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
           </div>';
       } else {
         echo '<div class="dropdown">
@@ -97,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
         La obra sigue las aventuras de Tanjirō Kamado, un adolescente cuya familia fue cruelmente asesinada por un Demonio el cual convirtió a su hermana Nezuko en una de estas criaturas, obligando a Tanjirō a emprender un viaje para cazar a estos seres y de paso ayudar a su hermana a recuperar su humanidad.
       </p>
       <div class="d-flex ms-3">
-        <button role="button" class="boton"><i class="fas fa-play"></i>Reproducir</button>
+        <button role="button"  onclick="reproducir(13)" class="boton"><i class="fas fa-play"></i>Reproducir</button>
         <button role="button" class="boton"><i class="fa fa-regular fa-bookmark"> </i>Añadir a favoritos</button>
       </div>
     </div>
@@ -108,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
         One Piece narra la historia de un joven llamado Monkey D. Luffy, que inspirado por su amigo pirata Shanks, comienza un viaje para alcanzar su sueño, ser el Rey de los piratas, para lo cual deberá encontrar el tesoro One Piece dejado por el anterior rey de los piratas Gol D. Roger.
       </p>
       <div class="d-flex ms-3">
-        <button role="button" class="boton"><i class="fas fa-play"></i>Reproducir</button>
+        <button role="button"  onclick="reproducir(3)" class="boton"><i class="fas fa-play"></i>Reproducir</button>
         <button role="button" class="boton"><i class="fas fa-solid fa-bookmark"></i>Añadir a favoritos</button>
       </div>
     </div>
@@ -119,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
         Dragon Ball nos cuenta la vida de Son Goku, un niño inspirado en la leyenda china del rey mono que tiene cola de simio, una nube voladora y un bastón mágico y que acompaña a Bulma por el mundo en busca de las Bolas de Dragón: siete esferas capaces de conceder cualquier deseo al juntarlas e invocar al dragón Shenlong.
       </p>
       <div class="d-flex ms-3">
-        <button role="button" class="boton"><i class="fas fa-play"></i>Reproducir</button>
+        <button role="button"  onclick="reproducir(1)" class="boton"><i class="fas fa-play"></i>Reproducir</button>
         <button role="button" class="boton"><i class="fas fa-solid fa-bookmark"></i>Añadir a favoritos</button>
       </div>
     </div>
@@ -135,6 +137,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
       <div class="opciones_Categorias">
         <input type="radio" value="Seinen" onchange="this.form.submit()" name="categoria_Anime" class="invisible" id="Seinen"><label for="Seinen">Seinen</label>
       </div>
+      <div class="opciones_Categorias">
+        <input type="radio" value="Mecha" onchange="this.form.submit()" name="categoria_Anime" class="invisible" id="Mecha"><label for="Mecha">Mecha</label>
+      </div>
     </form>
 
 
@@ -143,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
       echo "<div class=' mt-5 justify-content-center d-flex contenedor_categorias'>";
       foreach ($resultados as $anime) :
         echo "  
-        <div class='contenedorAnime'>
+        <div class='contenedorAnime' onclick='reproducir(". $anime['ID'].")'>
           <img src='./src/img/ids_categoria/" . $anime["ID"] . ".png' alt=''>
           <div class='content'>
             <h4 class='tituloContent'>" . $anime["Titulo"] . "</h4>
@@ -174,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
       echo "<div class=' mt-5 justify-content-center d-flex contenedor_categorias'>";
       foreach ($animes as $anime) {
         echo "  
-        <div class='contenedorAnime'>
+        <div class='contenedorAnime' onclick='reproducir(". $anime['ID'].")'>
           <img src='./src/img/ids_categoria/" . $anime["ID"] . ".png' alt=''>
           <div class='content'>
             <h4 class='tituloContent'>" . $anime["Titulo"] . "</h4>
