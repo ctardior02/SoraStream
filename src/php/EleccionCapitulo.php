@@ -175,17 +175,11 @@ if (isset($_POST["temporadaEleccion"])) {
   </footer>
   <script>
     function reproducirVideo(anime, temporada, capitulo){
-<<<<<<< HEAD
       fetch("AñadirHistorial.php", {
         method: "POST",
         body: anime,
-      });
-
-      location.href ="./reproductorEpisodio.php?src=../img/Episodios/13-1-1-definitivo.mp4";
-=======
-      
+      });     
       location.href ="./reproductorEpisodio.php?src=../img/Episodios/"+anime+"-"+temporada+"-"+capitulo+".mp4";
->>>>>>> c56656d5492cf1f74f79f44843611f554fb1f389
     }
 </script>
 </body>
