@@ -35,7 +35,7 @@ function comprobarFav($idAnime){
 
 function mostrarFoto(){
   $directorio = "./src/img/imgs-usuarios"; 
-  $carpeta = scandir($directorio);
+  $carpeta = scandir($directorio); 
   $jpgUsuario = $_SESSION["nick"]. ".jpg";
   $dir = (in_array($jpgUsuario,  $carpeta)) ? $directorio."/". $jpgUsuario : $directorio. "/default.webp";
   return $dir;
@@ -70,14 +70,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="d-flex flex-column justify-content-center body">
   <header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
-    <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center">
+    <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center headerIzq">
       <a href="./Index.php" class="d-inline-flex link-body-emphasis text-decoration-none">
         <img src="./src/img/LogoSoraStream3.png" width="200px" alt="">
       </a>
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <!-- <li><a href="#" class="px-2 BotonHeader">Home</a></li> -->
-        <li><a href="#" class="px-2 BotonHeader">Tu lista</a></li>
+        <li><a href="./src/php/cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
         <li><a href="./categorias.php" class="px-2 BotonHeader">Categorias</a></li>
+        <?php
+          if( isset($_SESSION["rol"])){
+            if($_SESSION["rol"] == 2){
+            echo "<li><a href='./src/php/PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
+          }
+        }
+        ?>
+       
       </ul>
     </div>
     <div class="d-flex align-items-center">
@@ -92,8 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-              <a href ="./src/php/register.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-              <a href="./src/php/register.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+              <a href ="./src/php/Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+              <a href="./src/php/Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
             </div>';
       } else {
         echo '<div class="dropdown">
@@ -177,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
           }
         } else {
-          $ico_fav = "<a href='./src/php/register.php' class='s__fav'>
+          $ico_fav = "<a href='./src/php/Login.php' class='s__fav'>
                         <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
                             <path fill='#fff' d='M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z'/>
                           </svg>
