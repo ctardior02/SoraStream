@@ -123,7 +123,7 @@
                 <img src="<?php echo $imagen ?>" alt="">
             </div>
             <div class="botones">
-                <form action="" method="post">
+                <form action="" class="form_editar" method="post">
                     <label for="editar">Editar Cuenta</label>
                     <input type="checkbox" name="editar" id="editar" hidden>
                     <div class="editar_cuenta">

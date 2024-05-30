@@ -126,13 +126,12 @@ main {
     background-color: #48494b;
     border: 1px solid #000000;
     left: calc(50vw - 450px);
-    top: 40px;
+    top: 90px;
     gap: 60px;
     border-radius: 15px;
     padding: 30px;
     padding-top: 70px;
     padding-bottom: 70px;
-    
 }
 
 .editar_cuenta .icono_quitar {
@@ -456,5 +455,35 @@ main {
 
     .otros{
         width: 330px;
+    }
+}
+
+@media (max-width: 960px) {
+    .editar_cuenta{
+        width: 660px;
+        left: calc(50vw - 330px);
+        position: absolute;
+    }
+
+    .editar_cuenta .icono_quitar{
+        left: 605px;
+    }
+}
+
+@media (max-width: 710px) {
+    .editar_cuenta{
+        width: 300px;
+        padding-left: 0;
+        padding-right: 0;
+        left: calc(50vw - 150px);
+        position: absolute;
+    }
+
+    .editar_cuenta .icono_quitar{
+        left: 245px;
+    }
+
+    .editar_cuenta > div{
+        align-items: center;
     }
 }
