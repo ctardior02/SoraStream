@@ -74,49 +74,68 @@ function mostrarFoto()
     <div class="bg-dark p-5 mr-2 d-flex align-items-center flex-column justify-content-center">
       <div class="pestañas">
         <div class="pestaña " id="animePestaña" onclick="mostrarPestaña('anime')">Crear Anime</div>
-        <div class="pestaña activa" onclick="mostrarPestaña('capitulo')">Crear Capítulo</div>
+        <div class="pestaña activa" id="capituloPestaña" onclick="mostrarPestaña('capitulo')">Crear Capítulo</div>
       </div>
       <div id="anime" class="content  form-container">
         <h2 class="text-light">Crear Anime</h2>
-        <form class="formularios" method="post">
+        <form class="formularios" method="post" enctype="multipart/form-data">
           <input type="text" class="izquierda" name="titulo" placeholder="Título" required>
           <input type="text" class="izquierda categoria" name="categoria" placeholder="Categoría" required>
+          <label for="imagen_horizontal">Imagen Horizontal</label>
+          <input type="file" name="imagen_horizontal" class="form-control" id="imagen_horizontal" hidden>
+          <label for="imagen_vertical">Imagen Vertical</label>
+          <input type="file" name="imagen_vertical" class="form-control" id="imagen_vertical" hidden>
           <textarea name="Descripción" class="textAreaDescripcion" placeholder="Descripción" required></textarea>
           <button type="submit" value="CrearAnime" class="mb-4" name="CrearAnime">Guardar Anime</button>
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['CrearAnime'])) {
-          include "./db.php";
+          if((isset($_FILES["imagen_horizontal"]) && isset($_FILES["imagen_vertical"])) && ($_FILES["imagen_horizontal"]["size"] > 0 || $_FILES["imagen_vertical"]["size"] > 0)) {
+            include "./db.php";
 
-          // Recoger los datos del formulario
-          $titulo = htmlspecialchars($_POST["titulo"]);
-          $descripcion = htmlspecialchars($_POST["descripcion"]);
-          $categoria = htmlspecialchars($_POST["categoria"]);
+            // Recoger los datos del formulario
+            $titulo = htmlspecialchars($_POST["titulo"]);
+            $descripcion = htmlspecialchars($_POST["descripcion"]);
+            $categoria = htmlspecialchars($_POST["categoria"]);
 
-          // Preparar y ejecutar la consulta
-          $idAnime = $db->prepare("INSERT INTO animes (Titulo, Descripcion, Categoria) VALUES (:titulo, :descripcion, :categoria)");
-          $idAnime->bindParam(":titulo", $titulo);
-          $idAnime->bindParam(":descripcion", $descripcion);
-          $idAnime->bindParam(":categoria", $categoria);
-          $idAnime->execute();
+            // Preparar y ejecutar la consulta
+            $animeNew = $db->prepare("INSERT INTO animes (Titulo, Descripcion, Categoria) VALUES (:titulo, :descripcion, :categoria)");
+            $animeNew->bindParam(":titulo", $titulo);
+            $animeNew->bindParam(":descripcion", $descripcion);
+            $animeNew->bindParam(":categoria", $categoria);
+            $animeNew->execute();
 
-          echo "<strong class='w-100 d-flex justify-content-center textoCreacion'>Anime creado</strong>";
+            $idAnimeNew = $db->lastInsertId();
+            $imagenHorizontal = $_FILES["imagen_horizontal"]["tmp_name"];
+            $imagenVertical = $_FILES["imagen_vertical"]["tmp_name"];
+
+            // Guardar las imágenes en la carpeta de imágenes
+            move_uploaded_file($imagenHorizontal, "../img/ids-categoria/" . $idAnimeNew . ".jpg");
+            move_uploaded_file($imagenVertical, "../img/ids/" . $idAnimeNew . ".jpg");
+
+            echo "<strong class='w-100 d-flex justify-content-center textoCreacion error-crear-anime'>Anime creado</strong>";
+            } else {
+              echo "<strong class='w-100 d-flex justify-content-center text-danger textoCreacion error-crear-anime'>Completa todos los campos</strong>";
+            }
         }
         ?>
       </div>
 
       <div id="capitulo" class="content form-container activa">
         <h2 class="text-light">Crear Capítulo</h2>
-        <form class="formularios formularioCapitulo" method="post">
+        <form class="formularios formularioCapitulo" method="post" enctype="multipart/form-data">
           <input type="number" placeholder="Temporada" name="Temporada" required>
           <input type="number" class="izquierda" name="NumeroEpisodio" placeholder="Número de Episodio" required>
           <input type="number" class="izquierda" name="Duracion" placeholder="Duración (minutos)" required>
           <input type="number" name="IDAnime" placeholder="ID del Anime" required>
           <input type="text" class="TituloEpisodio" name="TituloEpisodio" placeholder="Título del Episodio" required>
+          <label for="video">Video</label>
+          <input type="file" name="video" class="form-control" id="video" hidden>
           <button type="submit" name="CrearCapitulo" class="mb-4" value="CrearCapitulo">Guardar Capítulo</button>
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['CrearCapitulo'])) {
+          if((isset($_FILES["video"]) && $_FILES["video"]["size"] > 0)) {
           include "./db.php";
           // Recoger los datos del formulario
           $numeroEpisodio = htmlspecialchars($_POST["NumeroEpisodio"]);
@@ -134,15 +153,24 @@ function mostrarFoto()
           if ($resultadoAnime == null) {
             echo "<strong class='w-100 d-flex justify-content-center text-warning'>No se ha encontrado el anime con el ID " . $idAnime . "</strong>";
           } else {
-            $idAnimeStmt = $db->prepare("INSERT INTO capitulos (Num_Episodio, Titulo, Temporada, Duracion, ID_Anime) VALUES (:numeroEpisodio, :tituloEpisodio, :temporada, :duracion, :idAnime)");
-            $idAnimeStmt->bindParam(":numeroEpisodio", $numeroEpisodio);
-            $idAnimeStmt->bindParam(":tituloEpisodio", $tituloEpisodio);
-            $idAnimeStmt->bindParam(":temporada", $temporada);
-            $idAnimeStmt->bindParam(":duracion", $duracion);
-            $idAnimeStmt->bindParam(":idAnime", $idAnime);
-            $idAnimeStmt->execute();
+            $capituloNew = $db->prepare("INSERT INTO capitulos (Num_Episodio, Titulo, Temporada, Duracion, ID_Anime) VALUES (:numeroEpisodio, :tituloEpisodio, :temporada, :duracion, :idAnime)");
+            $capituloNew->bindParam(":numeroEpisodio", $numeroEpisodio);
+            $capituloNew->bindParam(":tituloEpisodio", $tituloEpisodio);
+            $capituloNew->bindParam(":temporada", $temporada);
+            $capituloNew->bindParam(":duracion", $duracion);
+            $capituloNew->bindParam(":idAnime", $idAnime);
+            $capituloNew->execute();
 
-            echo "<strong class='w-100 d-flex justify-content-center textoCreacion'>Anime creado</strong>";
+            $idCapituloNew = $db->lastInsertId();
+            $video = $_FILES["viedo"]["tmp_name"];
+
+            // Guardar las videos en la carpeta de videos
+            move_uploaded_file($imagenHorizontal, "../img/ids-categoria/" . $idAnime . "-" .$temporada. "-" . $idCapituloNew .".mp4");
+
+            echo "<strong class='w-100 d-flex justify-content-center textoCreacion'>Capítulo creado</strong>";
+          }
+          } else {
+            echo "<strong class='w-100 d-flex justify-content-center text-danger textoCreacion error-crear-capitulo'>Completa todos los campos</strong>";
           }
         }
         ?>

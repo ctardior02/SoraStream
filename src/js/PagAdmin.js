@@ -49,3 +49,24 @@ function myFunction() {
     location.href ="./src/php/EleccionCapitulo.php?id=" + id;
   }
   /* Fin estilos dropdwon cuenta */
+  window.addEventListener("load", function(){
+    let mensajeAnime = document.querySelector(".error-crear-anime");
+    if(mensajeAnime.textContent != "Anime creado"){
+
+
+      const contents = document.querySelectorAll('.content');
+      contents.forEach(content => content.classList.remove('activa'));
+
+      const tabs = document.querySelectorAll('.pestaña');
+      tabs.forEach(tab => tab.classList.remove('activa'));
+      document.getElementById('anime').classList.add('activa');
+
+      let botonAnime = document.getElementById("animePestaña");
+      botonAnime.classList.add("activa");
+      let botonCapitulo = document.getElementById("capituloPestaña");
+      if(botonCapitulo.classList.contains("activa")){
+        botonCapitulo.classList.remove("activa");
+      }
+    }
+    
+  });
