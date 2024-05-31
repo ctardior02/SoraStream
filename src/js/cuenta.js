@@ -176,3 +176,7 @@ function myFunction() {
       }
     }
   }
+
+  function reproducir(id){
+    location.href ="./EleccionCapitulo.php?id=" + id;
+  }
