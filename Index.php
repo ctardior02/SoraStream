@@ -287,39 +287,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $animeq = FiltroAnime("Shonen");
         echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
         foreach ($animeq as $anime) {
-
-          echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
-              <div class='card-container'>
-                  <div class='cardFlip-block'>
-                      <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
-                  </div>
-                  <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
-                    <p class='mt-3'>" . $anime["Titulo"] . "</p>
-                    <div class='w-100 d-flex flex-column mb-5'>
-                      <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
-                      <div class='iconos mt-4 w-100 d-flex'>
-                        <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-                          <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-                        </svg> 
-                        ".elegirIconoFav($anime["ID"])."
-                      </div>             
+          echo "<div class='flip-card' onclick='reproducir(". $anime['ID'].")'>
+                <div class='card-container'>
+                    <div class='cardFlip-block'>
+                        <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
                     </div>
-                  </div>
-              </div>
-              <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
-                <p class='mt-3'>" . $anime["Titulo"] . "</p>
-                <div class='w-100 h-100 d-flex flex-column Cards'>
-                  <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
-                  <div class='iconos w-100 d-flex mb-3'>
-                    <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-                      <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-                    </svg> 
-                    ".elegirIconoFav($anime["ID"])."
-                  </div>             
+                    <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
+                      <p class='mt-3'>" . $anime["Titulo"] . "</p>
+                      <div class='w-100 h-100 d-flex flex-column Cards'>
+                        <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
+                        <div class='iconos w-100 d-flex mb-3'>
+                          <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                            <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                          </svg> 
+                          ".elegirIconoFav($anime["ID"])."
+                        </div>             
+                      </div>
+                    </div>
                 </div>
-              </div>
-          </div>
-      </div>";
+            </div>";
         }
         echo "</div>";
         ?>
@@ -327,48 +313,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
           $animeq = FiltroAnime("Seinen");
           echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
-          foreach ($animeq as $anime) {
-
-            echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
-            <div class='card-container'>
-                <div class='cardFlip-block'>
-                    <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
-                </div>
-                <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
-                  <p class='mt-3'>" . $anime["Titulo"] . "</p>
-                  <div class='w-100 h-100 d-flex flex-column Cards'>
-                    <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
-                    <div class='iconos w-100 d-flex mb-3'>
-                      <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-                        <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-                      </svg> 
-                      ".elegirIconoFav($anime["ID"])."
-                    </div>             
-                  </div>
-                  <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
-                    <p class='mt-3'>" . $anime["Titulo"] . "</p>
-                    <div class='w-100 d-flex flex-column mb-5'>
-                      <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
-                      <div class='iconos mt-4 w-100 d-flex '>
-                        <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-                          <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-                        </svg> 
-                        ".elegirIconoFav($anime["ID"])."
-                      </div>             
-                    </div>
-                  </div>
-              </div>
-          </div>";
-          }
-          echo "</div>";
-          ?>
-          <h3 class="mt-4 text-light TituloLista">Los mejores Isakai</h1>
-            <?php
-            $animeq = FiltroAnime("Isekai");
-            echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
-            foreach ($animeq as $anime) {
-
-              echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
+      foreach ($animeq as $anime) {
+        echo "<div class='flip-card' onclick='reproducir(". $anime['ID'].")'>
               <div class='card-container'>
                   <div class='cardFlip-block'>
                       <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
@@ -387,6 +333,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
               </div>
           </div>";
+      }
+      echo "</div>";
+          ?>
+          <h3 class="mt-4 text-light TituloLista">Los mejores Isakai</h1>
+            <?php
+            $animeq = FiltroAnime("Isekai");
+            echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
+            foreach ($animeq as $anime) {
+              echo "<div class='flip-card' onclick='reproducir(". $anime['ID'].")'>
+                    <div class='card-container'>
+                        <div class='cardFlip-block'>
+                            <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
+                        </div>
+                        <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
+                          <p class='mt-3'>" . $anime["Titulo"] . "</p>
+                          <div class='w-100 h-100 d-flex flex-column Cards'>
+                            <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
+                            <div class='iconos w-100 d-flex mb-3'>
+                              <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                                <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                              </svg> 
+                              ".elegirIconoFav($anime["ID"])."
+                            </div>             
+                          </div>
+                        </div>
+                    </div>
+                </div>";
             }
             echo "</div>";
             ?>
