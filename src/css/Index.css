@@ -1,6 +1,7 @@
 body{
     display: flex;
     justify-content: center;
+    font-family: "Montserrat", sans-serif;
 }
 .body{
 	/* background-color: #3c5875; */
@@ -73,6 +74,23 @@ header{
 	display: flex!important;
 	justify-content: center;
 	background-image: url();
+}
+.TituloLista{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    margin-left: 430px;
+}
+@media(max-width:1280px){
+    .TituloLista{
+        margin-left: 0px;
+        justify-content: center;
+    }
+}
+.Cards{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .Sinopsis{

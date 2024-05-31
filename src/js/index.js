@@ -30,21 +30,25 @@ $(document).ready(function(){
           slidesToScroll: 1
         }
       }
-      // You can unslick at a given breakpoint now by adding:
-      // settings: "unslick"
-      // instead of a settings object
     ]
   });
 });
 
-$('.portada').slick({
-  dots: true,
-  infinite: true,
-  arrows: false,
-  autoplay: true,
-  autoplaySpeed: 4000,
-  swipe: false
+$(document).ready(function() {
+  if (!$('.portada').hasClass('slick-initialized')) {
+    $('.portada').slick({
+      dots: true,
+      infinite: true,
+      arrows: false,
+      autoplay: true,
+      autoplaySpeed: 4000,
+      swipe: false,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    });
+  }
 });
+
 
 /* Estilos dropdown index cuenta */
 function myFunction() {
@@ -80,4 +84,43 @@ window.onclick = function(event) {
 function reproducir(id){
   location.href ="./src/php/EleccionCapitulo.php?id=" + id;
 }
-/* Fin estilos dropdwon cuenta */
+function checkScreenSize() {
+  const Kimetsus = document.querySelectorAll('.portadaKimetsu');
+  const OnePieces = document.querySelectorAll('.portadaOnePiece');
+  const DragonBalls = document.querySelectorAll('.portadaDragonBall');
+  
+  if (window.innerWidth < 1000) {
+    Kimetsus.forEach(element => {
+      element.style.background = 'url(./src/img/Portadas/verticales/13.jpg)';
+      element.style.backgroundSize = 'cover';
+    });
+    
+    OnePieces.forEach(element => {
+      element.style.background = 'url(./src/img/Portadas/verticales/3.jpg)';
+      element.style.backgroundSize = 'cover';
+    });
+    
+    DragonBalls.forEach(element => {
+      element.style.background = 'url(./src/img/Portadas/verticales/1.jpg)';
+      element.style.backgroundSize = 'cover';
+    });
+    
+  } else {
+    Kimetsus.forEach(element => {
+      element.style.background = 'url(./src/img/portada5.jpg)';
+      element.style.backgroundSize = 'cover';
+    });
+    
+    OnePieces.forEach(element => {
+      element.style.background = 'url(./src/img/OnePiece-Portada.jpg)';
+      element.style.backgroundSize = 'cover';
+    });
+    
+    DragonBalls.forEach(element => {
+      element.style.background = 'url(./src/img/dragonBall-Portada.jpg)';
+      element.style.backgroundSize = 'cover';
+    });
+  }
+}
+window.addEventListener('load', checkScreenSize);
+window.addEventListener('resize', checkScreenSize);
