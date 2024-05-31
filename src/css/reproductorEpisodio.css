@@ -4,6 +4,7 @@ html, body{
 	display: flex;
 	flex-direction: column;
 	background-color: black!important;
+    font-family: "Montserrat", sans-serif;
   }
 :root {
   --plyr-color-main: #3c5875;

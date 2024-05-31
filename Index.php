@@ -21,14 +21,15 @@ function FiltroAnime($tipoAnime)
   return $animeq;
 }
 
-function comprobarFav($idAnime){
-  if(isset($_SESSION["id"])){
+function comprobarFav($idAnime)
+{
+  if (isset($_SESSION["id"])) {
     include "./src/php/db.php";
     $fav = $db->prepare("SELECT * FROM favoritos WHERE ID_Usuario = :id_usuario");
     $fav->bindParam(":id_usuario", $_SESSION["id"]);
     $fav->execute();
     foreach ($fav as $favsValue) {
-      if($favsValue["ID_Anime_Fav"] == $idAnime){
+      if ($favsValue["ID_Anime_Fav"] == $idAnime) {
         return true;
       }
     }
@@ -117,7 +118,7 @@ function buscar()
   header("Location: ./categorias.php?nombre=" . $nombre);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if(isset($_POST["nombre"])){
+  if (isset($_POST["nombre"])) {
     $nombre = htmlspecialchars($_POST["nombre"]);
     header("Location: ./categorias.php?nombre=" . urlencode($nombre));
     exit();
@@ -157,16 +158,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <li><a href="./src/php/cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
         <li><a href="./categorias.php" class="px-2 BotonHeader">Categorias</a></li>
         <?php
-          if( isset($_SESSION["rol"])){
-            if($_SESSION["rol"] == 2){
+        if (isset($_SESSION["rol"])) {
+          if ($_SESSION["rol"] == 2) {
             echo "<li><a href='./src/php/PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
           }
         }
         ?>
-       
+
       </ul>
     </div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center BuscadorLogin">
       <div class="buscador-container me-3">
         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="d-flex ">
           <input type="text" name="nombre" placeholder="Buscar...">
@@ -184,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } else {
         echo '<div class="dropdown">
               <button onclick="myFunction()" class="dropbtn">
-                <img src="'.mostrarFoto().'" width="200px" class="dropbtn" alt="">
+                <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
               </button>
               <div id="myDropdown" class="dropdown-content">
                 <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
@@ -199,7 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </header>
   <section class="pelicula-principal portada d-flex">
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/portada5.jpg); background-size: cover;" onclick="reproducir(13)">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5 portadaKimetsu" style="background: url(./src/img/portada5.jpg); background-size: cover;" onclick="reproducir(13)">
       <h3 class="titulo ms-3">Kimetsu No Yaiba</h3>
       <p class="descripcion ms-3">
         La obra sigue las aventuras de Tanjirō Kamado, un adolescente cuya familia fue cruelmente asesinada por un Demonio el cual convirtió a su hermana Nezuko en una de estas criaturas, obligando a Tanjirō a emprender un viaje para cazar a estos seres y de paso ayudar a su hermana a recuperar su humanidad.
@@ -216,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
 
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/OnePiece-Portada.jpg) ; background-size: cover;" onclick="reproducir(3)">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5 portadaOnePiece" style="background: url(./src/img/OnePiece-Portada.jpg) ; background-size: cover;" onclick="reproducir(3)">
       <h3 class="titulo ms-3">One Piece</h3>
       <p class="descripcion ms-3">
         One Piece narra la historia de un joven llamado Monkey D. Luffy, que inspirado por su amigo pirata Shanks, comienza un viaje para alcanzar su sueño, ser el Rey de los piratas, para lo cual deberá encontrar el tesoro One Piece dejado por el anterior rey de los piratas Gol D. Roger.
@@ -234,7 +235,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
 
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/dragonBall-Portada.jpg) ; background-size: cover;" onclick="reproducir(1)">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5 portadaDragonBall" style="background: url(./src/img/dragonBall-Portada.jpg) ; background-size: cover;" onclick="reproducir(1)">
       <h3 class="titulo ms-3">Dragon Ball</h3>
       <p class="descripcion ms-3">
         Dragon Ball nos cuenta la vida de Son Goku, un niño inspirado en la leyenda china del rey mono que tiene cola de simio, una nube voladora y un bastón mágico y que acompaña a Bulma por el mundo en busca de las Bolas de Dragón: siete esferas capaces de conceder cualquier deseo al juntarlas e invocar al dragón Shenlong.
@@ -253,13 +254,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </section>
   <main class="d-flex align-items-center justify-content-center flex-column">
-    <h3 class="text-light">Todos nuestros animes del dia</h1>
+    <h3 class="text-light TituloLista">Todos nuestros animes del dia</h1>
       <?php
-      if (isset($_POST['Ct_Anime'])) {
-        $animeq = FiltroAnime($_POST['Ct_Anime']);
-      } else {
-        $animeq = FullAnimes();
-      }
+      $animeq = FullAnimes();
       echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
       foreach ($animeq as $anime) {
         echo "<div class='flip-card' onclick='reproducir(". $anime['ID'].")'>
@@ -269,9 +266,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                   <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
                     <p class='mt-3'>" . $anime["Titulo"] . "</p>
-                    <div class='w-100 d-flex flex-column mb-5'>
+                    <div class='w-100 h-100 d-flex flex-column Cards'>
                       <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
-                      <div class='iconos mt-4 w-100 d-flex '>
+                      <div class='iconos w-100 d-flex mb-3'>
                         <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
                           <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
                         </svg> 
@@ -285,7 +282,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo "</div>";
       ?>
 
-      <h3 class="text-light mt-4">Los mejores shonen</h1>
+      <h3 class="text-light mt-4 TituloLista">Los mejores shonen</h1>
         <?php
         $animeq = FiltroAnime("Shonen");
         echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
@@ -309,20 +306,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                   </div>
               </div>
-          </div>";
+              <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
+                <p class='mt-3'>" . $anime["Titulo"] . "</p>
+                <div class='w-100 h-100 d-flex flex-column Cards'>
+                  <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
+                  <div class='iconos w-100 d-flex mb-3'>
+                    <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                      <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                    </svg> 
+                    ".elegirIconoFav($anime["ID"])."
+                  </div>             
+                </div>
+              </div>
+          </div>
+      </div>";
         }
         echo "</div>";
         ?>
-        <h3 class=" mt-4 text-light">Los mejores Seinen</h1>
+        <h3 class=" mt-4 text-light TituloLista">Los mejores Seinen</h1>
           <?php
           $animeq = FiltroAnime("Seinen");
           echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
           foreach ($animeq as $anime) {
 
             echo "<div class='flip-card' onclick='reproducir(" . $anime['ID'] . ")'>
-              <div class='card-container'>
-                  <div class='cardFlip-block'>
-                      <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
+            <div class='card-container'>
+                <div class='cardFlip-block'>
+                    <img src='./src/img/ids/" . $anime['ID'] . ".png' alt=''>
+                </div>
+                <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
+                  <p class='mt-3'>" . $anime["Titulo"] . "</p>
+                  <div class='w-100 h-100 d-flex flex-column Cards'>
+                    <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
+                    <div class='iconos w-100 d-flex mb-3'>
+                      <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                        <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                      </svg> 
+                      ".elegirIconoFav($anime["ID"])."
+                    </div>             
                   </div>
                   <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
                     <p class='mt-3'>" . $anime["Titulo"] . "</p>
@@ -341,7 +362,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }
           echo "</div>";
           ?>
-          <h3 class="mt-4 text-light">Los mejores Isakai</h1>
+          <h3 class="mt-4 text-light TituloLista">Los mejores Isakai</h1>
             <?php
             $animeq = FiltroAnime("Isekai");
             echo "<div class='justify-content-center d-flex ListaAnimes contenedor'>";
@@ -354,9 +375,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                   <div  class='bg-dark text-light cardFlip-block-back d-flex align-items-center flex-column' style='background: url(./src/img/ids/" . $anime['ID'] . ".png)'>
                     <p class='mt-3'>" . $anime["Titulo"] . "</p>
-                    <div class='w-100 d-flex flex-column mb-5'>
+                    <div class='w-100 h-100 d-flex flex-column Cards'>
                       <p class='Sinopsis'>" . $anime["Descripcion"] . "</p>
-                      <div class='iconos mt-4 w-100 d-flex '>
+                      <div class='iconos w-100 d-flex mb-3'>
                         <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
                           <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
                         </svg> 
@@ -368,7 +389,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>";
             }
             echo "</div>";
-
             ?>
 
 

@@ -4,7 +4,7 @@ body{
     display: block;
     font-family: "Montserrat", sans-serif;
     font-size: 12px;
-    background-color: #3e3f41;
+    background-color: #16172b;
     color: #a0a5a8;
     padding: 0;
     margin: 0;
@@ -15,9 +15,7 @@ header{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    justify-content: space-between;
     border-bottom: 1px solid #fff;
     height: 100px;
 }
@@ -187,7 +185,10 @@ main {
     -moz-appearance: textfield;
     appearance: textfield;
 }
-
+.historial, .favoritos{
+    
+    background-color: #3e3f41;
+}
 #card-number::-webkit-inner-spin-button,
 #card-number::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -286,13 +287,13 @@ main {
 .fav, .hist {
     display: grid;
     width: 100%;
-    border: 1px solid #000000;
+    border-bottom: 1px solid #000000;
     box-sizing: border-box;
-    border-radius: 5px;
     justify-content: start;
     align-items: center;
     height: 150px;
     gap: 40px;
+    margin-top: 10px;
 }
 
 .fav{
@@ -346,6 +347,7 @@ main {
     font-size: 1.4em;
     color: #be3939;
 }
+
 
 @media (max-width: 1185px) {
     header > div:last-child{

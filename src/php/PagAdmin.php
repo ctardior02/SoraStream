@@ -11,6 +11,7 @@ function mostrarFoto()
   $dir = (in_array($jpgUsuario,  $carpeta)) ? $directorio . "/" . $jpgUsuario : $directorio . "/default.webp";
   return $dir;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +23,7 @@ function mostrarFoto()
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/cabecera.css">
   <link rel="stylesheet" href="../css/PagAdmin.css">
+  <link rel="stylesheet" href="../css/Index.css">
 </head>
 
 <body class="d-flex flex-column justify-content-center body">
@@ -32,12 +34,12 @@ function mostrarFoto()
       </a>
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <!-- <li><a href="#" class="px-2 BotonHeader">Home</a></li> -->
-        <li><a href="#" class="px-2 BotonHeader">Tu lista</a></li>
-        <li><a href="./categorias.php" class="px-2 BotonHeader">Categorias</a></li>
+        <li><a href="./cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
+        <li><a href="../../categorias.php" class="px-2 BotonHeader">Categorias</a></li>
         <?php
         if (isset($_SESSION["rol"])) {
           if ($_SESSION["rol"] == 2) {
-            echo "<li><a href='./src/php/PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
+            echo "<li><a href='./PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
           }
         }
         ?>
@@ -46,32 +48,29 @@ function mostrarFoto()
     </div>
     <div class="d-flex align-items-center">
       <?php
-
-
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-              <a href ="./src/php/Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-              <a href="./src/php/Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
-            </div>';
+        <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+        <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+      </div>';
       } else {
         echo '<div class="dropdown">
-              <button onclick="myFunction()" class="dropbtn">
-                <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
-              </button>
-              <div id="myDropdown" class="dropdown-content">
-                <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
-                <a href="./src/php/logout.php">Cerrar sesión</a>
-              </div>
-            </div>
-            ';
+        <button onclick="myFunction()" class="dropbtn">
+          <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
+        </button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="./cuenta.php">Configuración de la cuenta</a>
+          <a href="./logout.php">Cerrar sesión</a>
+        </div>
+      </div>
+      ';
       }
-
       ?>
 
     </div>
   </header>
   <div class="contenedorFormularios">
-    <div class="bg-dark p-5 mr-2 d-flex align-items-center flex-column justify-content-center">
+    <div class=" ContenedorColor p-5 mr-2 d-flex align-items-center flex-column justify-content-center">
       <div class="pestañas">
         <div class="pestaña " id="animePestaña" onclick="mostrarPestaña('anime')">Crear Anime</div>
         <div class="pestaña activa" id="capituloPestaña" onclick="mostrarPestaña('capitulo')">Crear Capítulo</div>
@@ -86,7 +85,7 @@ function mostrarFoto()
           <label for="imagen_vertical">Imagen Vertical</label>
           <input type="file" name="imagen_vertical" class="form-control" id="imagen_vertical" hidden>
           <textarea name="Descripción" class="textAreaDescripcion" placeholder="Descripción" required></textarea>
-          <button type="submit" value="CrearAnime" class="mb-4" name="CrearAnime">Guardar Anime</button>
+          <button type="submit" value="CrearAnime" class="mb-4 botonEnviar" name="CrearAnime">Guardar Anime</button>
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['CrearAnime'])) {
@@ -131,7 +130,7 @@ function mostrarFoto()
           <input type="text" class="TituloEpisodio" name="TituloEpisodio" placeholder="Título del Episodio" required>
           <label for="video">Video</label>
           <input type="file" name="video" class="form-control" id="video" hidden>
-          <button type="submit" name="CrearCapitulo" class="mb-4" value="CrearCapitulo">Guardar Capítulo</button>
+          <button type="submit" name="CrearCapitulo" class="mb-4 botonEnviar" value="CrearCapitulo">Guardar Capítulo</button>
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['CrearCapitulo'])) {
@@ -153,13 +152,14 @@ function mostrarFoto()
           if ($resultadoAnime == null) {
             echo "<strong class='w-100 d-flex justify-content-center text-warning'>No se ha encontrado el anime con el ID " . $idAnime . "</strong>";
           } else {
-            $capituloNew = $db->prepare("INSERT INTO capitulos (Num_Episodio, Titulo, Temporada, Duracion, ID_Anime) VALUES (:numeroEpisodio, :tituloEpisodio, :temporada, :duracion, :idAnime)");
-            $capituloNew->bindParam(":numeroEpisodio", $numeroEpisodio);
-            $capituloNew->bindParam(":tituloEpisodio", $tituloEpisodio);
-            $capituloNew->bindParam(":temporada", $temporada);
-            $capituloNew->bindParam(":duracion", $duracion);
-            $capituloNew->bindParam(":idAnime", $idAnime);
-            $capituloNew->execute();
+            $idAnimeStmt = $db->prepare("INSERT INTO capitulos (Num_Episodio, Titulo, Temporada, Duracion, ID_Anime, Fecha_publicacion) VALUES (:numeroEpisodio, :tituloEpisodio, :temporada, :duracion, :idAnime, :Fecha_publicacion)");
+            $idAnimeStmt->bindParam(":numeroEpisodio", $numeroEpisodio);
+            $idAnimeStmt->bindParam(":tituloEpisodio", $tituloEpisodio);
+            $idAnimeStmt->bindParam(":temporada", $temporada);
+            $idAnimeStmt->bindParam(":duracion", $duracion);
+            $idAnimeStmt->bindParam(":idAnime", $idAnime);
+            $idAnimeStmt->bindParam(":Fecha_publicacion", date("Y-m-d"));
+            $idAnimeStmt->execute();
 
             $idCapituloNew = $db->lastInsertId();
             $video = $_FILES["viedo"]["tmp_name"];

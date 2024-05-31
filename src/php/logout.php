@@ -10,6 +10,6 @@
     session_destroy();
 
     /* finalmete el script lleva de nuevo al login: */
-    header("Location: ./register.php");
+    header("Location: ./Login.php");
 
 ?>

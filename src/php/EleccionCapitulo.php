@@ -1,39 +1,65 @@
 <?php
 session_start();
+
+// Funciones
 function AnimeReproductor($id)
 {
-  include "./db.php";
-  $animes = "SELECT * from animes where ID = $id";
-  $animeq = $db->query($animes);
-  return $animeq;
+    include "./db.php";
+    $animes = "SELECT * from animes where ID = $id";
+    $animeq = $db->query($animes);
+    return $animeq;
 }
+
 function filtroEpisodios($idAnime, $temporadaActiva = 1)
 {
-  include "./db.php";
-  $episodios = "SELECT * from capitulos where ID_Anime = $idAnime and Temporada = $temporadaActiva";
-  $episodiosq = $db->query($episodios);
-  return $episodiosq;
+    include "./db.php";
+    $episodios = "SELECT * from capitulos where ID_Anime = $idAnime and Temporada = $temporadaActiva";
+    $episodiosq = $db->query($episodios);
+    return $episodiosq;
 }
+
 function filtroTemporadas($id)
 {
-  include "./db.php";
-  $capitulos = "SELECT DISTINCT Temporada from capitulos where ID_anime = $id";
-  $capitulosq = $db->query($capitulos);
-  return $capitulosq;
+    include "./db.php";
+    $capitulos = "SELECT DISTINCT Temporada from capitulos where ID_anime = $id";
+    $capitulosq = $db->query($capitulos);
+    return $capitulosq;
 }
+
+function mostrarFoto()
+{
+    $directorio = "../img/imgs-usuarios";
+    $carpeta = scandir($directorio);
+    $jpgUsuario = $_SESSION["nick"] . ".jpg";
+    $dir = (in_array($jpgUsuario,  $carpeta)) ? $directorio . "/" . $jpgUsuario : $directorio . "/default.webp";
+    return $dir;
+}
+
+// Procesamiento del formulario
+if (isset($_POST["temporadaEleccion"])) {
+    $_SESSION["temporadaActiva"] = $_POST["temporadaEleccion"];
+} elseif (!isset($_SESSION["temporadaActiva"])) {
+    $_SESSION["temporadaActiva"] = 1;
+}
+
+// Parámetros iniciales
 $id = $_GET["id"];
-if (isset($_GET["temporada"])) {
-  $temporadaActiva = $_GET["temporada"];
-  $episodiosq = filtroEpisodios($id, $temporadaActiva);
-} else {
-  $episodiosq = filtroEpisodios($id);
-}
+$temporadaActiva = $_SESSION["temporadaActiva"];
+$episodiosq = filtroEpisodios($id, $temporadaActiva);
 $animeq = AnimeReproductor($id);
 $temporadaq = filtroTemporadas($id);
-if (isset($_POST["temporadaEleccion"])) {
-  $_SESSION["temporadaActiva"] = $_POST["temporadaEleccion"];
-} else {
-  $_SESSION["temporadaActiva"] = 1;
+
+foreach ($animeq as $anime) {
+    $Titulo = $anime["Titulo"];
+    $Descripcion = $anime["Descripcion"];
+    $id = $anime["ID"];
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (isset($_POST["nombre"])) {
+    $nombre = htmlspecialchars($_POST["nombre"]);
+    header("Location: ../../categorias.php?nombre=" . urlencode($nombre));
+    exit();
+  } 
 }
 ?>
 
@@ -45,8 +71,7 @@ if (isset($_POST["temporadaEleccion"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SoraSttream</title>
   <link rel="stylesheet" href="../css/cabecera.css">
-  <link rel="stylesheet" href="../css/Portada.css
-  <!-- Uso de librerias -->
+  <link rel="stylesheet" href="../css/Portada.css">
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -61,33 +86,36 @@ if (isset($_POST["temporadaEleccion"])) {
       </a>
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <!-- <li><a href="#" class="px-2 BotonHeader">Home</a></li> -->
-        <li><a href="#" class="px-2 BotonHeader">Tu lista</a></li>
+        <li><a href="./cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
         <li><a href="../../categorias.php" class="px-2 BotonHeader">Categorias</a></li>
       </ul>
     </div>
     <div class="d-flex align-items-center">
       <div class="buscador-container me-3">
-        <input type="text" placeholder="Buscar...">
-        <button class="buscador" type="submit">Buscar</button>
+      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="d-flex ">
+          <input type="text" name="nombre" placeholder="Buscar...">
+          <button class="buscador" type="submit">Buscar</button>
+        </form>
       </div>
       <?php
-
-
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-                  <a href="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-                  <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
-                </div>';
+        <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+        <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+      </div>';
       } else {
         echo '<div class="dropdown">
-                  <button onclick="myFunction()" class="dropbtn">Logout</button>
-                  <div id="myDropdown" class="dropdown-content">
-                    <a href="./cuenta.php">Configuración de la cuenta</a>
-                    <a href="#">Cerrar sesión</a>
-                  </div>
-                </div>
-                ';
+        <button onclick="myFunction()" class="dropbtn">
+          <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
+        </button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="./cuenta.php">Configuración de la cuenta</a>
+          <a href="./logout.php">Cerrar sesión</a>
+        </div>
+      </div>
+      ';
       }
+
       ?>
     </div>
   </header>
@@ -102,47 +130,77 @@ if (isset($_POST["temporadaEleccion"])) {
     </div>
   </section>
   <main class="container mb-4">
-    <h1 class="TituloAnimeRepro">Dragon Ball Z</h1>
+    <h1 class="TituloAnimeRepro mb-3"><?php echo $Titulo; ?></h1>
+    <p class="DescripcionAnimeRepro mb-5"><?php echo $Descripcion; ?></p>
+    <?php
+      if(!isset($_SESSION["rol"])){
+        echo "<h3 class='text-warning mb-3'>Para ver un capitulo debes iniciar antes sesion</h3>";
+      }else if($_SESSION["rol"] == 0){
+        echo "<h3 class='text-warning mb-3'>Para ver un capitulo con menos de un mes desde su estreno debes tener una cuenta premium</h3>";
+      }
+    ?>
     <section class="ListaEpisodiosBody">
       <div class="d-flex justify-content-between">
-        <h4 class="ms-4 mb-4">Episodios</h4>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?id=$id&temporada=" . $_SESSION["temporadaActiva"] ?>" method="post">
-          <select onchange='this.form.submit()' name="temporadaEleccion" class="desplegableTemporada form-select">
+        <h4 class="ms-4 mb-4 text-light">Episodios</h4>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?id=$id"; ?>" method="post">
+        <select onchange='this.form.submit()' name="temporadaEleccion" class="desplegableTemporada form-select">
             <?php
             foreach ($temporadaq as $temporada) {
-              if (isset($_GET["temporada"])) {
-                if ($temporada["Temporada"] == $_GET["temporada"]) {
-                  echo " <option selected value=" . $temporada["Temporada"] . ">Temporada " . $temporada["Temporada"] . "</option>";
+                if ($temporada["Temporada"] == $temporadaActiva) {
+                    echo "<option selected value=" . $temporada["Temporada"] . ">Temporada " . $temporada["Temporada"] . "</option>";
                 } else {
-                  echo " <option value=" . $temporada["Temporada"] . ">Temporada " . $temporada["Temporada"] . "</option>";
+                    echo "<option value=" . $temporada["Temporada"] . ">Temporada " . $temporada["Temporada"] . "</option>";
                 }
-              } else {
-                echo " <option value=" . $temporada["Temporada"] . ">Temporada " . $temporada["Temporada"] . "</option>";
-              }
             }
             ?>
-          </select>
-        </form>
+        </select>
+    </form>
       </div>
       <div class="ListaEpisodios">
         <?php
+        // Fecha actual menos un mes
         foreach ($episodiosq as $episodio) {
-          echo " 
-          <div  onclick='reproducirVideo(". $episodio['ID_Anime'].", ". $episodio['Temporada'].", ". $episodio['Num_Episodio'].")' class='Episodio d-flex w-100 justify-content-beetwen'>
-          <img src='../img/ids_categoria/2.png' alt=''>
-          <div class='d-flex flex-column w-100 justify-content-center ms-4'>
-            <h5>Capitulo" . $episodio["Num_Episodio"] . "</h5>
-            <p>" . $episodio["Titulo"] . "</p>
-          </div>
-          <div class='CajaBotonEpisodio'>
-            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className=' botonEpisodio w-6 h-6'>
-              <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-            </svg>
-          </div>
+          $fechaHaceUnMes = date("Y-m-d", strtotime("-1 month"));
+          $fechaEpisodio = date("Y-m-d", strtotime($episodio['Fecha_publicacion']));
+          if (isset($_SESSION["rol"])) {
+            if ($_SESSION["rol"] == 0) {
+              $esDeshabilitado = "no";
+              if ($fechaEpisodio < $fechaHaceUnMes) {
+                $esDeshabilitado = "si";
+              } else {
+                $esDeshabilitado = "no";
+              }
+              $onclick = "id='deshabilitado'";
+              // Definir el atributo onclick y la clase según si el episodio está deshabilitado o no
+              if ($esDeshabilitado == "si") {
+                $onclick =  "onclick='reproducirVideo(" . $episodio['ID_Anime'] . ", " . $episodio['Temporada'] . ", " . $episodio['Num_Episodio'] . ")'";
+              }
+              // Comparar la fecha de publicación del episodio con la fecha de hace un mes
+            } else {
+              $onclick = "onclick='reproducirVideo(" . $episodio['ID_Anime'] . ", " . $episodio['Temporada'] . ", " . $episodio['Num_Episodio'] . ")'";
+            }
+          } else {
+            $onclick =  "id='deshabilitado'";
+          }
+          echo "  
+        <div class='Episodio d-flex w-100 justify-content-between' $onclick>
+            <img src='../img/ids_categoria/".$id.".png' alt=''>
+            <div class='d-flex flex-column w-100 justify-content-center ms-4'>
+                <h5>Capitulo " . $episodio["Num_Episodio"] . "</h5>
+                <p>" . $episodio["Titulo"] . "</p>
+            </div>
+            <div class='CajaBotonEpisodio'>
+                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='botonEpisodio w-6 h-6'>
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                </svg>
+            </div>
         </div>";
         }
         ?>
       </div>
+
+
+
     </section>
   </main>
   <footer>
@@ -174,14 +232,15 @@ if (isset($_POST["temporadaEleccion"])) {
     </div>
   </footer>
   <script>
-    function reproducirVideo(anime, temporada, capitulo){
+    function reproducirVideo(anime, temporada, capitulo) {
       fetch("AñadirHistorial.php", {
         method: "POST",
         body: anime,
-      });     
-      location.href ="./reproductorEpisodio.php?src=../img/Episodios/"+anime+"-"+temporada+"-"+capitulo+".mp4";
+      });
+      location.href = "./reproductorEpisodio.php?src=../img/Episodios/" + anime + "-" + temporada + "-" + capitulo + ".mp4";
     }
-</script>
+  </script>
+  <script src="../js/index.js"></script>
 </body>
 
 </html>
