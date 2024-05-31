@@ -347,6 +347,7 @@ main {
     color: #be3939;
 }
 
+
 @media (max-width: 1185px) {
     header > div:last-child{
         margin-left: 0;
