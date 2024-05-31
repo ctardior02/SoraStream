@@ -6,7 +6,7 @@
             $preparada->bindParam(':id', $_SESSION['id']);
             $preparada->execute();
 
-            header("Location: ./register.php");
+            header("Location: ./Login.php");
         } catch (PDOException $e) {
             echo "Error en la base de datos " . $e->getMessage();
         }
