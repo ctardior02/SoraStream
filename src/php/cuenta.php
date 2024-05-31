@@ -108,7 +108,7 @@ $imagen = mostrarFoto();
                 <?php
                 if (isset($_SESSION["rol"])) {
                     if ($_SESSION["rol"] == 2) {
-                        echo "<li><a href='./src/php/PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
+                        echo "<li><a href='./PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
                     }
                 }
                 ?>
