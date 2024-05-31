@@ -1,4 +1,5 @@
 <?php
+session_start();
 function FiltroAnime($tipoAnime)
 {
   include "./src/php/db.php";
@@ -32,6 +33,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nombre'])) {
 function reproducir($id){
   header("Location: ./src/php/eleccionCapitulo.php?id=" . $id);
 }
+
+function mostrarFoto(){
+  $directorio = "./src/img/imgs-usuarios"; 
+  $carpeta = scandir($directorio); 
+  $jpgUsuario = $_SESSION["nick"]. ".jpg";
+  $dir = (in_array($jpgUsuario,  $carpeta)) ? $directorio."/". $jpgUsuario : $directorio. "/default.webp";
+  return $dir;
+}
+
+
+
+
+
+
+$metodo = htmlspecialchars($_SERVER["PHP_SELF"]);
+
+if (isset($_POST["id_fav"])) {
+    include "./src/php/db.php";
+    $añadirFavoritos = $db->prepare("INSERT INTO favoritos (ID_Usuario, ID_Anime_Fav) VALUES (:id_usuario, :id_anime_fav)");
+    $añadirFavoritos->bindParam(":id_usuario", $_SESSION["id"]);
+    $añadirFavoritos->bindParam(":id_anime_fav", $_POST["id_fav"]);
+    $añadirFavoritos->execute();
+    $_POST = array();
+  }
+
+function comprobarFav($idAnime)
+{
+  if (isset($_SESSION["id"])) {
+    include "./src/php/db.php";
+    $fav = $db->prepare("SELECT * FROM favoritos WHERE ID_Usuario = :id_usuario");
+    $fav->bindParam(":id_usuario", $_SESSION["id"]);
+    $fav->execute();
+    foreach ($fav as $favsValue) {
+      if ($favsValue["ID_Anime_Fav"] == $idAnime) {
+        return true;
+      }
+    }
+  } else {
+    return false;
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +95,7 @@ function reproducir($id){
 <body class="body d-flex flex-column justify-content-center ">
   <header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
     <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center">
-      <a href="./Index.php" class="d-inline-flex link-body-emphasis text-decoration-none">
+      <a href="./Index.php" class=" Logo d-inline-flex link-body-emphasis text-decoration-none">
         <img src="./src/img/LogoSoraStream3.png" width="200px" alt="">
       </a>
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
@@ -74,18 +116,20 @@ function reproducir($id){
 
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-            <a href="./src/php/Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-            <a href="./src/php/Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
-          </div>';
+              <a href ="./src/php/Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+              <a href="./src/php/Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+            </div>';
       } else {
         echo '<div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Logout</button>
-            <div id="myDropdown" class="dropdown-content">
-              <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
-              <a href="#">Cerrar sesión</a>
+              <button onclick="myFunction()" class="dropbtn">
+                <img src="'.mostrarFoto().'" width="200px" class="dropbtn" alt="">
+              </button>
+              <div id="myDropdown" class="dropdown-content">
+                <a href="./src/php/cuenta.php">Configuración de la cuenta</a>
+                <a href="./src/php/logout.php">Cerrar sesión</a>
+              </div>
             </div>
-          </div>
-          ';
+            ';
       }
 
       ?>
@@ -93,7 +137,7 @@ function reproducir($id){
     </div>
   </header>
   <section class="pelicula-principal portada d-flex">
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/portada5.jpg); background-size: cover;">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5 portadaKimetsu" style="background: url(./src/img/portada5.jpg); background-size: cover;">
       <h3 class="titulo ms-3">Kimetsu No Yaiba</h3>
       <p class="descripcion ms-3">
         La obra sigue las aventuras de Tanjirō Kamado, un adolescente cuya familia fue cruelmente asesinada por un Demonio el cual convirtió a su hermana Nezuko en una de estas criaturas, obligando a Tanjirō a emprender un viaje para cazar a estos seres y de paso ayudar a su hermana a recuperar su humanidad.
@@ -104,7 +148,7 @@ function reproducir($id){
       </div>
     </div>
 
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/OnePiece-Portada.jpg) ; background-size: cover;">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5 portadaOnePiece" style="background: url(./src/img/OnePiece-Portada.jpg) ; background-size: cover;">
       <h3 class="titulo ms-3">One Piece</h3>
       <p class="descripcion ms-3">
         One Piece narra la historia de un joven llamado Monkey D. Luffy, que inspirado por su amigo pirata Shanks, comienza un viaje para alcanzar su sueño, ser el Rey de los piratas, para lo cual deberá encontrar el tesoro One Piece dejado por el anterior rey de los piratas Gol D. Roger.
@@ -115,7 +159,7 @@ function reproducir($id){
       </div>
     </div>
 
-    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5" style="background: url(./src/img/dragonBall-Portada.jpg) ; background-size: cover;">
+    <div class="contenedorPortada d-flex flex-column justify-content-end pb-5 portadaDragonBall" style="background: url(./src/img/dragonBall-Portada.jpg) ; background-size: cover;">
       <h3 class="titulo ms-3">Dragon Ball</h3>
       <p class="descripcion ms-3">
         Dragon Ball nos cuenta la vida de Son Goku, un niño inspirado en la leyenda china del rey mono que tiene cola de simio, una nube voladora y un bastón mágico y que acompaña a Bulma por el mundo en busca de las Bolas de Dragón: siete esferas capaces de conceder cualquier deseo al juntarlas e invocar al dragón Shenlong.
@@ -127,7 +171,7 @@ function reproducir($id){
     </div>
   </section>
   <main>
-    <form class="text-light d-flex" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="formCategoria">
+    <form class="text-light d-flex formCategoria" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <div class="opciones_Categorias">
         <input type="radio" value="Shonen" onchange="this.form.submit()" name="categoria_Anime" class="invisible" id="Shonen"><label for="Shonen">Shonen</label>
       </div>
@@ -147,19 +191,43 @@ function reproducir($id){
       <?php
       echo "<div class=' mt-5 justify-content-center d-flex contenedor_categorias'>";
       foreach ($resultados as $anime) :
+        
+        if (isset($_SESSION["id"])) {
+          if (comprobarFav($anime["ID"])) {
+            $ico_fav = "<svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                          <path fill='#fff' d='M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z'/>
+                        </svg>
+            ";
+          } else {
+            $ico_fav = "<form action='$metodo' method='post'>
+                        <input type='hidden' name='id_fav' value='" . $anime["ID"] . "'>
+                        <button type='submit' class='s__fav'>
+                          <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                            <path fill='#fff' d='M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z'/>
+                          </svg>
+                        </button>
+                       </form>
+            ";
+          }
+        } else {
+          $ico_fav = "<a href='./src/php/Login.php' class='s__fav'>
+                        <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                            <path fill='#fff' d='M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z'/>
+                          </svg>
+                      </a>
+          ";
+        }
         echo "  
         <div class='contenedorAnime' onclick='reproducir(". $anime['ID'].")'>
           <img src='./src/img/ids_categoria/" . $anime["ID"] . ".png' alt=''>
           <div class='content'>
             <h4 class='tituloContent'>" . $anime["Titulo"] . "</h4>
-            <div class='iconos mt-4 w-100 d-flex '>
-                  <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-                  </svg>
-                  <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='w-6 h-6'>
-                    <path stroke-linecap='round' stroke-linejoin='round' d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z' />
-                  </svg>
-                </div>
+            <div class='iconos w-100 d-flex mb-3'>
+                        <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+                          <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+                        </svg> 
+                        $ico_fav
+                      </div> 
           </div>
         </div>";
       ?>
@@ -178,19 +246,42 @@ function reproducir($id){
       $animes = FiltroAnime($_SESSION["categoria_Anime"]);
       echo "<div class=' mt-5 justify-content-center d-flex contenedor_categorias'>";
       foreach ($animes as $anime) {
+        if (isset($_SESSION["id"])) {
+          if (comprobarFav($anime["ID"])) {
+            $ico_fav = "<svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                          <path fill='#fff' d='M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z'/>
+                        </svg>
+            ";
+          } else {
+            $ico_fav = "<form action='$metodo' method='post'>
+                        <input type='hidden' name='id_fav' value='" . $anime["ID"] . "'>
+                        <button type='submit' class='s__fav'>
+                          <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                            <path fill='#fff' d='M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z'/>
+                          </svg>
+                        </button>
+                       </form>
+            ";
+          }
+        } else {
+          $ico_fav = "<a href='./src/php/Login.php' class='s__fav'>
+                        <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                            <path fill='#fff' d='M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z'/>
+                          </svg>
+                      </a>
+          ";
+        }
         echo "  
         <div class='contenedorAnime' onclick='reproducir(". $anime['ID'].")'>
           <img src='./src/img/ids_categoria/" . $anime["ID"] . ".png' alt=''>
           <div class='content'>
             <h4 class='tituloContent'>" . $anime["Titulo"] . "</h4>
-            <div class='iconos mt-4 w-100 d-flex '>
-                  <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
-                  </svg>
-                  <svg class='IconoFav' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='w-6 h-6'>
-                    <path stroke-linecap='round' stroke-linejoin='round' d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z' />
-                  </svg>
-                </div>
+            <div class='iconos w-100 d-flex mb-3'>
+            <svg class='IconosPlay' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6'>
+              <path strokeLinecap='round' strokeLinejoin='round' d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' />
+            </svg> 
+            $ico_fav
+          </div> 
           </div>
         </div>";
       }

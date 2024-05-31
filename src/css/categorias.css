@@ -1,3 +1,7 @@
+body{
+    
+    font-family: "Montserrat", sans-serif;
+}
 .opciones_Categorias{
     border: 1px solid #b1b1b1;
     margin-left: 50px;
@@ -8,6 +12,7 @@
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 50px;
+    width: 85px;
 }
 .invisible{
     visibility: hidden;
@@ -28,9 +33,21 @@
 .contenedor_categorias img{
     width: 300px;
 }
-
-
-
+.iconos{
+    width: 100px;
+}
+.IconosPlay, .IconoFav{
+    width: 30px;
+}
+.s__fav{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.IconosPlay{
+    width: 35px;
+    margin-left: 10px;
+}
 .contenedorAnime {
     background-color: blue;
     position: relative;
@@ -79,6 +96,21 @@
   .slick-dots li button:hover:before {
   color: #fff!important;
   }
+
+  @media(max-width:1115px){
+    .formCategoria{
+        justify-content: center;
+        gap: 20px;
+    }
+    .opciones_Categorias{
+        margin-left: 0px;
+    }
+ }
+  @media(max-width:555px){
+    .formCategoria{
+        flex-wrap: wrap;
+    }
+  } 
   /* Fin arrow slider */
 
 
