@@ -1,3 +1,6 @@
+body{
+    font-family: "Montserrat", sans-serif;
+}
 .contenedorFormularios {
     font-family: Arial, sans-serif;
     display: flex;
@@ -20,7 +23,9 @@
 .pestañas {
     display: flex;
 }
-
+.ContenedorColor{
+    background-color: #1e1f3b;
+}
 .pestaña {
     text-align: center;
     width: 200px;
@@ -53,6 +58,7 @@
 
 .content.activa {
     display: block;
+    width: 650px;
 }
 
 .form-container h2 {
@@ -91,12 +97,15 @@ button {
     grid-column: span 2;
     width: 70%;
     padding: 10px;
-    background-color: #676862;
+    background-color: #444242;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+}
+button:hover{
+    background-color: #474646;
 }
 
 .textoCreacion{
@@ -109,4 +118,19 @@ button {
 }
 .TituloEpisodio{
     width: 300px!important;
+}
+
+@media(max-width:768px){
+    .pestañas{
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+@media(max-width:605px){
+    .formularioCapitulo{
+        flex-direction: column;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+    }
 }

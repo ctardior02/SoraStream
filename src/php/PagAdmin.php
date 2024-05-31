@@ -11,6 +11,7 @@ function mostrarFoto()
   $dir = (in_array($jpgUsuario,  $carpeta)) ? $directorio . "/" . $jpgUsuario : $directorio . "/default.webp";
   return $dir;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +23,7 @@ function mostrarFoto()
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/cabecera.css">
   <link rel="stylesheet" href="../css/PagAdmin.css">
+  <link rel="stylesheet" href="../css/Index.css">
 </head>
 
 <body class="d-flex flex-column justify-content-center body">
@@ -46,32 +48,29 @@ function mostrarFoto()
     </div>
     <div class="d-flex align-items-center">
       <?php
-
-
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-              <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-              <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
-            </div>';
+        <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+        <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+      </div>';
       } else {
         echo '<div class="dropdown">
-              <button onclick="myFunction()" class="dropbtn">
-                <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
-              </button>
-              <div id="myDropdown" class="dropdown-content">
-                <a href="./cuenta.php">Configuración de la cuenta</a>
-                <a href="./logout.php">Cerrar sesión</a>
-              </div>
-            </div>
-            ';
+        <button onclick="myFunction()" class="dropbtn">
+          <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
+        </button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="./cuenta.php">Configuración de la cuenta</a>
+          <a href="./logout.php">Cerrar sesión</a>
+        </div>
+      </div>
+      ';
       }
-
       ?>
 
     </div>
   </header>
   <div class="contenedorFormularios">
-    <div class="bg-dark p-5 mr-2 d-flex align-items-center flex-column justify-content-center">
+    <div class=" ContenedorColor p-5 mr-2 d-flex align-items-center flex-column justify-content-center">
       <div class="pestañas">
         <div class="pestaña " id="animePestaña" onclick="mostrarPestaña('anime')">Crear Anime</div>
         <div class="pestaña activa" onclick="mostrarPestaña('capitulo')">Crear Capítulo</div>
@@ -82,7 +81,7 @@ function mostrarFoto()
           <input type="text" class="izquierda" name="titulo" placeholder="Título" required>
           <input type="text" class="izquierda categoria" name="categoria" placeholder="Categoría" required>
           <textarea name="Descripción" class="textAreaDescripcion" placeholder="Descripción" required></textarea>
-          <button type="submit" value="CrearAnime" class="mb-4" name="CrearAnime">Guardar Anime</button>
+          <button type="submit" value="CrearAnime" class="mb-4 botonEnviar" name="CrearAnime">Guardar Anime</button>
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['CrearAnime'])) {
@@ -113,7 +112,7 @@ function mostrarFoto()
           <input type="number" class="izquierda" name="Duracion" placeholder="Duración (minutos)" required>
           <input type="number" name="IDAnime" placeholder="ID del Anime" required>
           <input type="text" class="TituloEpisodio" name="TituloEpisodio" placeholder="Título del Episodio" required>
-          <button type="submit" name="CrearCapitulo" class="mb-4" value="CrearCapitulo">Guardar Capítulo</button>
+          <button type="submit" name="CrearCapitulo" class="mb-4 botonEnviar" value="CrearCapitulo">Guardar Capítulo</button>
         </form>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['CrearCapitulo'])) {
@@ -134,12 +133,13 @@ function mostrarFoto()
           if ($resultadoAnime == null) {
             echo "<strong class='w-100 d-flex justify-content-center text-warning'>No se ha encontrado el anime con el ID " . $idAnime . "</strong>";
           } else {
-            $idAnimeStmt = $db->prepare("INSERT INTO capitulos (Num_Episodio, Titulo, Temporada, Duracion, ID_Anime) VALUES (:numeroEpisodio, :tituloEpisodio, :temporada, :duracion, :idAnime)");
+            $idAnimeStmt = $db->prepare("INSERT INTO capitulos (Num_Episodio, Titulo, Temporada, Duracion, ID_Anime, Fecha_publicacion) VALUES (:numeroEpisodio, :tituloEpisodio, :temporada, :duracion, :idAnime, :Fecha_publicacion)");
             $idAnimeStmt->bindParam(":numeroEpisodio", $numeroEpisodio);
             $idAnimeStmt->bindParam(":tituloEpisodio", $tituloEpisodio);
             $idAnimeStmt->bindParam(":temporada", $temporada);
             $idAnimeStmt->bindParam(":duracion", $duracion);
             $idAnimeStmt->bindParam(":idAnime", $idAnime);
+            $idAnimeStmt->bindParam(":Fecha_publicacion", date("Y-m-d"));
             $idAnimeStmt->execute();
 
             echo "<strong class='w-100 d-flex justify-content-center textoCreacion'>Anime creado</strong>";
