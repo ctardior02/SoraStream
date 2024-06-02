@@ -36,8 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $modificacion->bindParam(":password", $_POST["password"]);
         $modificacion->bindParam(":tc", $mtc);
         $modificacion->execute();
-        header("Location: {$_SERVER['PHP_SELF']}");
-        exit();
+        $_SESSION["nick"] = $_POST["nick"];
+        $_SESSION["nombre"] = $_POST["nombre"];
+        $_SESSION["email"] = $_POST["correo"];
+        $_SESSION["password"] = $_POST["password"];
+        $_SESSION["tc"] = $mtc;
+        header("Location: ./cuenta.php");
     } else if (isset($_POST["id_fav"])) {
         $eliminarFav = $db->prepare("DELETE FROM favoritos WHERE ID = :id");
         $eliminarFav->bindParam(":id", $_POST["id_fav"]);
@@ -61,6 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $mesaje3 = "Debes tener una tarjeta de credito para poder hacer la compra de premium";
         }
+    } else if (isset($_POST["usu_QuitarPremium"])) {
+        $_SESSION["rol"] = 0;
+        $mesaje3 = "";
+        $usu_QuitarPremium = $db->prepare("UPDATE usuarios SET rol = 0 WHERE ID = :id");
+        $usu_QuitarPremium->bindParam(":id", $_POST["usu_QuitarPremium"]);
+        $usu_QuitarPremium->execute();
+        header("Location: {$_SERVER['PHP_SELF']}");
+        exit();
     }
 }
 
@@ -93,7 +105,7 @@ $imagen = mostrarFoto();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/cabecera.css">
     <link rel="stylesheet" href="../css/cuenta.css">
-    <title>Cuenta</title>
+    <title>SoraSttream</title>
 </head>
 
 <body class="">
@@ -192,11 +204,15 @@ $imagen = mostrarFoto();
                     ";
             } else if ($rol == 1) {
                 echo "
-                        <div class='rol p__premium-ten'>Eres premium</div>
+                    <div class='rol p__premium-ten'>Eres premium</div>  
+                    <form action='$metodo' method='post'>
+                        <input type='hidden' name='usu_QuitarPremium' value='$id'>
+                        <input type='submit' class='rol p__premium-Quitar' value='Deshabilitar Premium'>
+                    </form>                      
                     ";
             } else if ($rol == 2) {
                 echo "
-                        <a href='./admin.php' class='rol p__admin'><div>Pagina Administrativa</div></a>
+                        <a href='./PagAdmin.php' class='rol p__admin'><div>Pagina Administrativa</div></a>
                     ";
             }
             ?>
@@ -228,7 +244,7 @@ $imagen = mostrarFoto();
                             $animesFav->execute();
                             foreach ($animesFav as $value) {
                                 echo "
-                                        <div class='fav' onclick='reproducir(". $value["ID"] .")'>
+                                        <div class='fav' onclick='reproducir(" . $value["ID"] . ")'>
                                             <div class='imag'>
                                                 <img src='../img/ids/" . $value["ID"] . ".png' class='img-fav'>
                                             </div>
@@ -260,7 +276,7 @@ $imagen = mostrarFoto();
                             $animesHist->execute();
                             foreach ($animesHist as $value) {
                                 echo "
-                                    <div class='hist' onclick='reproducir(". $value["ID"] .")'>
+                                    <div class='hist' onclick='reproducir(" . $value["ID"] . ")'>
                                         <div class='imag'>
                                             <img src='../img/ids/" . $value["ID"] . ".png' class='img-hist'>
                                         </div>
