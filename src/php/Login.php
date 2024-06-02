@@ -62,7 +62,7 @@ if (isset($_POST["singin"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <title>SoraStream</title>
+    <title>SoraSttream</title>
 </head>
 
 <body>
@@ -81,8 +81,7 @@ if (isset($_POST["singin"])) {
                     <div class="ContenedorInput">
                         <i class='bx bx-lock-alt'></i>
                         <input type="password" placeholder="Contraseña" name="lPassword" class="input">
-                    </div>
-                    <!-- <a href="#" class="RecuperarContraseña">Olvidaste tu contraseña?</a> -->
+                    </div>  
                     <p class="l__description mensaje"><?php $resultado = (isset($mensaje)) ? $mensaje : "¡Importante!: Recuerda rellenar todos los campos";
                         echo "$resultado" ?></p>
                     <input href="#" type="submit" class="Boton s__singin" name="singin" value="SING IN">Iniciar Sesion</input>

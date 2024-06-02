@@ -124,16 +124,6 @@ img{
   color: var(--ColorCambioContraseña);
 }
 
-.RecuperarContraseña{
-  display: block;
-  width: max-content;
-  margin-left: auto;
-  margin-top: .5rem;
-  font-size: var(--TamañoPequeño);
-  font-weight: 600;
-  color: var(--ColorCambioContraseña);
-}
-
 .Boton{
   display: block;
   padding: 1rem;
