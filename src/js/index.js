@@ -84,7 +84,7 @@ window.onclick = function(event) {
 function reproducir(id){
   location.href ="./src/php/EleccionCapitulo.php?id=" + id;
 }
-function checkScreenSize() {
+function CambiarFoto() {
   const Kimetsus = document.querySelectorAll('.portadaKimetsu');
   const OnePieces = document.querySelectorAll('.portadaOnePiece');
   const DragonBalls = document.querySelectorAll('.portadaDragonBall');
@@ -107,20 +107,20 @@ function checkScreenSize() {
     
   } else {
     Kimetsus.forEach(element => {
-      element.style.background = 'url(./src/img/portada5.jpg)';
+      element.style.background = 'url(./src/img/Portadas/horizontales/13.jpg)';
       element.style.backgroundSize = 'cover';
     });
     
     OnePieces.forEach(element => {
-      element.style.background = 'url(./src/img/OnePiece-Portada.jpg)';
+      element.style.background = 'url(./src/img/Portadas/horizontales/3.jpg)';
       element.style.backgroundSize = 'cover';
     });
     
     DragonBalls.forEach(element => {
-      element.style.background = 'url(./src/img/dragonBall-Portada.jpg)';
+      element.style.background = 'url(./src/img/Portadas/horizontales/1.jpg)';
       element.style.backgroundSize = 'cover';
     });
   }
 }
-window.addEventListener('load', checkScreenSize);
-window.addEventListener('resize', checkScreenSize);
+window.addEventListener('load', CambiarFoto);
+window.addEventListener('resize', CambiarFoto);

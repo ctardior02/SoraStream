@@ -5,7 +5,7 @@ body{
 }
 .body{
 	/* background-color: #3c5875; */
-	background-color: #16172b; /* Fallback color */
+	background-color: rgb(22, 23, 43); /* Fallback color */
 }   
 header{
     width: 100;
@@ -76,15 +76,28 @@ header{
 	background-image: url();
 }
 .TituloLista{
-    width: 100%;
     display: flex;
-    justify-content: start;
-    margin-left: 430px;
+    justify-self: start;
+    margin-left: 215px;
 }
+
 @media(max-width:1280px){
     .TituloLista{
         margin-left: 0px;
         justify-content: center;
+    }
+    .cajaTitulo{
+        justify-content: center;
+    }
+    .boton{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .IconoFav{
+        display: flex;
+        align-items: center;
     }
 }
 .Cards{
@@ -112,7 +125,6 @@ header{
     border: none;
     cursor: pointer;
 }
-
 .contenedor{
     position: relative;
     display: flex;
