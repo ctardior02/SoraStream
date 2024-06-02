@@ -13,7 +13,7 @@ function AnimeReproductor($id)
 function filtroEpisodios($idAnime, $temporadaActiva = 1)
 {
     include "./db.php";
-    $episodios = "SELECT * from capitulos where ID_Anime = $idAnime and Temporada = $temporadaActiva";
+    $episodios = "SELECT c.Titulo, c.Temporada, c.Duracion, c.ID_Anime, c.Num_Episodio, c.Fecha_publicacion FROM capitulos c INNER JOIN animes a ON c.ID_Anime = a.ID WHERE c.ID_Anime = $idAnime and c.Temporada = $temporadaActiva";
     $episodiosq = $db->query($episodios);
     return $episodiosq;
 }
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="body d-flex flex-column justify-content-center">
-  <header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
+<header class="d-flex  flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
     <div class=" ms-2 mb-2 mb-md-0 d-flex justify-content-center align-items-center headerIzq">
       <a href="../../Index.php" class="d-inline-flex link-body-emphasis text-decoration-none">
         <img src="../../src/img/LogoSoraStream3.png" width="200px" alt="">
@@ -88,35 +88,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- <li><a href="#" class="px-2 BotonHeader">Home</a></li> -->
         <li><a href="./cuenta.php" class="px-2 BotonHeader">Tu lista</a></li>
         <li><a href="../../categorias.php" class="px-2 BotonHeader">Categorias</a></li>
+        <?php
+        if (isset($_SESSION["rol"])) {
+          if ($_SESSION["rol"] == 2) {
+            echo "<li><a href='./PagAdmin.php' class='px-2 BotonHeader'>Administradores</a></li>";
+          }
+        }
+        ?>
+
       </ul>
     </div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center BuscadorLogin">
       <div class="buscador-container me-3">
-      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="d-flex ">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="d-flex ">
           <input type="text" name="nombre" placeholder="Buscar...">
           <button class="buscador" type="submit">Buscar</button>
         </form>
       </div>
       <?php
+
+
       if (!isset($_SESSION["id"])) {
         echo '  <div class="me-2 text-end d-flex">
-        <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
-        <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
-      </div>';
+              <a href ="./Login.php" class="BotonHeader font-sm bold auth-link">Registrarse</a>
+              <a href="./Login.php" class="BotonInicioRegistro font-sm bold auth-link">Iniciar sesión</a>
+            </div>';
       } else {
         echo '<div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">
-          <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
-        </button>
-        <div id="myDropdown" class="dropdown-content">
-          <a href="./cuenta.php">Configuración de la cuenta</a>
-          <a href="./logout.php">Cerrar sesión</a>
-        </div>
-      </div>
-      ';
+              <button onclick="myFunction()" class="dropbtn">
+                <img src="' . mostrarFoto() . '" width="200px" class="dropbtn" alt="">
+              </button>
+              <div id="myDropdown" class="dropdown-content">
+                <a href="./cuenta.php">Configuración de la cuenta</a>
+                <a href="./logout.php">Cerrar sesión</a>
+              </div>
+            </div>
+            ';
       }
 
       ?>
+
     </div>
   </header>
   <section class="d-flex justify-content-center portadaReproductor">
@@ -125,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
     <div>
       <?php
-      echo "<img src='../../src/img/ids_categoria/" . $id . ".png' alt=''>"
+      echo "<img src='../../src/img/ids_categoria/" . $id . ".png' alt='' class='imagenPortada'>"
       ?>
     </div>
   </section>
@@ -184,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }
           echo "  
         <div class='Episodio d-flex w-100 justify-content-between' $onclick>
-            <img src='../img/ids_categoria/".$id.".png' alt=''>
+            <img src='../img/ids_categoria/".$id.".png' alt='' class='imagenPortada'>
             <div class='d-flex flex-column w-100 justify-content-center ms-4'>
                 <h5>Capitulo " . $episodio["Num_Episodio"] . "</h5>
                 <p>" . $episodio["Titulo"] . "</p>
@@ -241,6 +252,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   </script>
   <script src="../js/index.js"></script>
+  <script src="../js/Eleccioncapitulo.js"></script>
 </body>
-
 </html>
