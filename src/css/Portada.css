@@ -35,6 +35,7 @@ body{
 .pelicula-principal .boton {
 	background: rgba(0,0,0, 0.5);
 	border: none;
+	height: 70px;
 	border-radius: 0.31em;
 	padding: 0.93em 1.87em;
 	color: #fff;
@@ -94,8 +95,4 @@ body{
 .contenedorPortada > * {
     position: relative;
     z-index: 2; /* Aquí estás definiendo un z-index mayor para los elementos hijos */
-}
-.portadaDragonBall{
-	align-items: center;
-	background-position: center;
 }
